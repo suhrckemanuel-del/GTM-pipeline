@@ -1,2 +1,31 @@
 ﻿contact_id,company_id,name,role,channel,profile_url,warmness_cold_warm,notes
-1,,,,,,,
+1,1,TO_RESEARCH,Founder/CEO,LinkedIn,,cold,Find on LinkedIn; personalize first line
+2,1,TO_RESEARCH,Commercial lead (GTM),LinkedIn,,cold,Find on LinkedIn; personalize first line
+3,1,TO_RESEARCH,People/Talent lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
+4,2,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+5,2,TO_RESEARCH,Head of Growth or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line
+6,2,TO_RESEARCH,People partner,LinkedIn,,cold,Find on LinkedIn; personalize first line
+7,3,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+8,3,TO_RESEARCH,Head of Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line
+9,3,TO_RESEARCH,Talent lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
+10,7,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+11,7,TO_RESEARCH,GTM/Revenue lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
+12,7,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
+13,21,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+14,21,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line
+15,21,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
+16,23,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+17,23,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
+18,23,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
+19,24,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+20,24,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
+21,24,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
+22,25,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+23,25,TO_RESEARCH,Commercial lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
+24,25,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
+25,4,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+26,4,TO_RESEARCH,VP Marketing or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line
+27,4,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
+28,26,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
+29,26,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
+30,26,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line

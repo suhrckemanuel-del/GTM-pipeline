@@ -1,0 +1,39 @@
+import csv
+from pathlib import Path
+
+rows = [
+    (1, 1, "Tier messaging may blur across customer tiers", "2-week single-tier experiment + objection log", "Faster ICP clarity before scaling spend", "med", "pipeline/value-notes/01-gleef.md"),
+    (2, 2, "Enterprise buyers need productized proof not generic AI demos", "One vertical production teardown + narrow outbound", "Higher reply quality and shorter cycles", "med", "pipeline/value-notes/02-nexus.md"),
+    (3, 3, "Crowded AI SDR category; buyers skeptical", "One wedge + geo public experiment narrative", "Clearer differentiation vs generic tools", "med", "pipeline/value-notes/03-enginy.md"),
+    (4, 7, "AI pricing confuses CFO vs PM vs Eng", "Three-audience pricing page + example usage model", "Shorter enterprise internal alignment", "med", "pipeline/value-notes/07-paid-ai.md"),
+    (5, 21, "High-ticket needs vertical trust and conversion story", "Three vertical micro-sites + vertical outbound test", "Higher intent pipeline in proven verticals", "med", "pipeline/value-notes/21-clerq.md"),
+    (6, 23, "Embedded pay competitive; need ISV playbooks", "Payments revenue launch kit for top 3 ISV segments", "Faster ISV launches and partner-led growth", "med", "pipeline/value-notes/23-payabli.md"),
+    (7, 24, "Agent + payments raises security/compliance questions", "VP-Product-friendly security narrative + reference flow", "Fewer security stalls in POC", "med", "pipeline/value-notes/24-basis-theory.md"),
+    (8, 25, "Unified rails story can read as feature checklist", "Single corridor + ICP GTM wedge first", "Higher reply rates and cleaner feedback", "med", "pipeline/value-notes/25-onenext.md"),
+    (9, 4, "Orchestration category crowded; hero story too broad", "Three workflow pattern landings + NA/EU AB test", "Better qualified demos", "med", "pipeline/value-notes/04-kestra.md"),
+    (10, 26, "Inventory finance spans CFO and ops; messaging splits", "Retail vs wholesale outbound AB + ROI sketch", "Clearer ICP and faster discovery", "med", "pipeline/value-notes/26-autone.md"),
+]
+
+
+def main():
+    root = Path(__file__).resolve().parents[1]
+    path = root / "pipeline" / "insights.csv"
+    with path.open("w", newline="", encoding="utf-8-sig") as f:
+        w = csv.writer(f)
+        w.writerow(
+            [
+                "insight_id",
+                "company_id",
+                "observed_issue",
+                "recommended_idea",
+                "expected_impact",
+                "confidence_low_med_high",
+                "source_url",
+            ]
+        )
+        w.writerows(rows)
+    print(f"Wrote {len(rows)} insights")
+
+
+if __name__ == "__main__":
+    main()

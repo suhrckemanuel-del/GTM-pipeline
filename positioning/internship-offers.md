@@ -4,18 +4,18 @@ Fill durations, deliverables, and success metrics before touch 3.
 
 ## 1. ICP and messaging sprint
 
-- **Duration:** _e.g. 4–8 weeks_
-- **Deliverables:** _e.g. ICP doc, message map, 2 competitor positioning comparisons_
-- **Success metrics:** _e.g. clarity on primary segment; testable headline variants_
+- **Duration:** 6 weeks (can compress to 4 if needed)
+- **Deliverables:** 1-page ICP + anti-ICP; top 3 segments with pain/outcome language; homepage/hero + 3 outbound hooks; 2 competitor snapshots (positioning + wedge)
+- **Success metrics:** agreed primary segment; 5 testable message variants; shortlist of next experiments (not just slides)
 
 ## 2. Channel experiment sprint
 
-- **Duration:**
-- **Deliverables:** _e.g. outbound or content test plan, 2-week experiment log, readout_
-- **Success metrics:** _e.g. reply rate, meeting rate, or qualified conversations_
+- **Duration:** 6 weeks (2 weeks design + 4 weeks run)
+- **Deliverables:** channel hypothesis doc; experiment plan (audience, offer, CTA); weekly log; 1-page readout with keep/kill/iterate
+- **Success metrics:** leading indicators they care about (e.g. reply rate, meeting rate, waitlist signups, activation) — pick 1–2 upfront
 
 ## 3. Launch support sprint
 
-- **Duration:**
-- **Deliverables:** _e.g. launch narrative, landing/page feedback, partner or segment hypothesis_
-- **Success metrics:** _e.g. activation or waitlist quality — whatever they care about_
+- **Duration:** 4–8 weeks aligned to their launch window
+- **Deliverables:** launch narrative (who it is for / why now); landing or docs pass for clarity; 1 segment-specific mini-campaign outline; optional partner or community angle
+- **Success metrics:** launch KPI they name (signups, pilots booked, demo requests) + qualitative feedback from 5–10 target users if possible
