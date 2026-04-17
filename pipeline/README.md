@@ -5,8 +5,9 @@ CSV files mirror the plan’s four entities. Edit in Excel / Google Sheets or he
 | File | Purpose |
 |------|---------|
 | `companies.csv` | 40 qualified targets (20 AI, 20 fintech, EU + US mix) |
-| `contacts.csv` | 30 rows = top 10 companies × ~3 roles; fill `name` + `profile_url` |
-| `insights.csv` | One row per value note (top 10); `source_url` points to markdown note path |
+| `contacts.csv` | 30 rows = top 10 companies × ~3 roles; fill `name` + `profile_url`; optional `work_email` / `email_status` / `email_source` |
+| `company_domains.csv` | `company_id` → `primary_domain` (for email finder APIs); fill before running `scripts/enrich_emails.py` |
+| `insights.csv` | One row per value note (20 rows for batches 01–02); `source_url` points to markdown note path |
 | `outreach.csv` | One row per contact for batch 1; planned dates + status |
 
 **Value notes (full text):** `pipeline/value-notes/*.md`

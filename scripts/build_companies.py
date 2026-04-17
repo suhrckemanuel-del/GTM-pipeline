@@ -1,3 +1,4 @@
+import argparse
 import csv
 from pathlib import Path
 
@@ -44,27 +45,73 @@ rows = [
     (40, "Arc", "Fintech", "US", "Series A/B", "40-90", "Startup banking stack", "GTM scale", "YES", "Startup vs SMB ICP angle", 4, ""),
 ]
 
+FIELDNAMES = [
+    "company_id",
+    "name",
+    "vertical",
+    "geography",
+    "stage",
+    "headcount_estimate",
+    "recent_growth_signals",
+    "hiring_signals",
+    "checklist_pass",
+    "must_haves_notes",
+    "priority",
+    "notes",
+]
+
+
 def main():
+    parser = argparse.ArgumentParser(description="Build or extend companies.csv")
+    parser.add_argument(
+        "--append",
+        metavar="CSV_FILE",
+        help="Append approved candidates from this CSV to companies.csv (assigns new IDs)",
+    )
+    args = parser.parse_args()
+
     root = Path(__file__).resolve().parents[1]
     path = root / "pipeline" / "companies.csv"
+
+    if args.append:
+        # Read existing file to find max company_id
+        if not path.is_file():
+            print(f"Error: {path} not found. Run without --append first.", flush=True)
+            return
+        with path.open(encoding="utf-8-sig") as f:
+            existing = list(csv.DictReader(f))
+        max_id = max((int(r["company_id"]) for r in existing), default=0)
+
+        # Read candidates file
+        src = Path(args.append)
+        if not src.is_file():
+            print(f"Error: {src} not found.")
+            return
+        with src.open(encoding="utf-8-sig") as f:
+            candidates = list(csv.DictReader(f))
+
+        # Assign sequential IDs and append
+        existing_names = {r["name"].strip().lower() for r in existing}
+        added = 0
+        with path.open("a", newline="", encoding="utf-8-sig") as f:
+            w = csv.DictWriter(f, fieldnames=FIELDNAMES, extrasaction="ignore")
+            for candidate in candidates:
+                if candidate["name"].strip().lower() in existing_names:
+                    print(f"  Skipping duplicate: {candidate['name']}")
+                    continue
+                max_id += 1
+                candidate["company_id"] = max_id
+                w.writerow(candidate)
+                existing_names.add(candidate["name"].strip().lower())
+                added += 1
+
+        print(f"Appended {added} new companies to {path} (IDs {max_id - added + 1}–{max_id})")
+        return
+
+    # Default: rebuild from scratch
     with path.open("w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(
-            [
-                "company_id",
-                "name",
-                "vertical",
-                "geography",
-                "stage",
-                "headcount_estimate",
-                "recent_growth_signals",
-                "hiring_signals",
-                "checklist_pass",
-                "must_haves_notes",
-                "priority",
-                "notes",
-            ]
-        )
+        w.writerow(FIELDNAMES)
         w.writerows(rows)
     print(f"Wrote {len(rows)} rows to {path}")
 

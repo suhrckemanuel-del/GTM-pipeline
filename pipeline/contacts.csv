@@ -1,31 +1,149 @@
-﻿contact_id,company_id,name,role,channel,profile_url,warmness_cold_warm,notes
-1,1,TO_RESEARCH,Founder/CEO,LinkedIn,,cold,Find on LinkedIn; personalize first line
-2,1,TO_RESEARCH,Commercial lead (GTM),LinkedIn,,cold,Find on LinkedIn; personalize first line
-3,1,TO_RESEARCH,People/Talent lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
-4,2,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-5,2,TO_RESEARCH,Head of Growth or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line
-6,2,TO_RESEARCH,People partner,LinkedIn,,cold,Find on LinkedIn; personalize first line
-7,3,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-8,3,TO_RESEARCH,Head of Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line
-9,3,TO_RESEARCH,Talent lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
-10,7,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-11,7,TO_RESEARCH,GTM/Revenue lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
-12,7,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
-13,21,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-14,21,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line
-15,21,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
-16,23,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-17,23,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
-18,23,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
-19,24,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-20,24,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
-21,24,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
-22,25,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-23,25,TO_RESEARCH,Commercial lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
-24,25,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
-25,4,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-26,4,TO_RESEARCH,VP Marketing or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line
-27,4,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
-28,26,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line
-29,26,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line
-30,26,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line
+﻿contact_id,company_id,name,role,channel,profile_url,warmness_cold_warm,notes,work_email,email_status,email_source,split_test_group
+1,1,Antoine Borrelly,Founder/CEO,LinkedIn,,cold,Find on LinkedIn; personalize first line,antoine@gleef.eu,found,hunter_domain_search,group_a
+2,1,TO_RESEARCH,Commercial lead (GTM),LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+3,1,TO_RESEARCH,People/Talent lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+4,2,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+5,2,TO_RESEARCH,Head of Growth or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+6,2,TO_RESEARCH,People partner,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+7,3,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+8,3,TO_RESEARCH,Head of Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+9,3,TO_RESEARCH,Talent lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+10,7,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+11,7,TO_RESEARCH,GTM/Revenue lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+12,7,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+13,21,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+14,21,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+15,21,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+16,23,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+17,23,Marielle Mekkaoui,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,marielle@payabli.com,found,hunter_domain_search,group_b
+18,23,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+19,24,Colin Luce,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,cl@basistheory.com,found,hunter_domain_search,group_a
+20,24,Lucy Hurley,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,lucy@basistheory.com,found,hunter_domain_search,group_a
+21,24,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+22,25,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+23,25,TO_RESEARCH,Commercial lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+24,25,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+25,4,Emmanuel Darras,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,edarras@kestra.io,found,hunter_domain_search,group_b
+26,4,David Khan,VP Marketing or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,dkhan@kestra.io,found,hunter_domain_search,group_b
+27,4,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+28,26,Adil Bouhdadi,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,adil@autone.io,found,hunter_domain_search,group_a
+29,26,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+30,26,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+31,5,Brijesh Tripathi,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,brijesh.tripathi@flex.ai,found,hunter_domain_search,group_b
+32,5,Stéphane Roy,VP Product or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,stephane.roy@flex.ai,found,hunter_domain_search,group_b
+33,5,Michel Courtois,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,michel.courtois@flex.ai,found,hunter_domain_search,group_b
+34,6,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+35,6,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+36,6,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+37,8,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+38,8,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+39,8,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+40,9,Boris Arzentar,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,boris@cognee.ai,found,hunter_domain_search,group_a
+41,9,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+42,9,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+43,10,Anton Osika,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,anton@lovable.dev,found,hunter_domain_search,group_b
+44,10,Henrik Westerlund,VP Marketing or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,henrik@lovable.dev,found,hunter_domain_search,group_b
+45,10,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+46,11,Sumith Kulal,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,sumith@blackforestlabs.ai,found,hunter_domain_search,group_b
+47,11,Sarah Nöckel,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,sarah@blackforestlabs.ai,found,hunter_domain_search,group_b
+48,11,Justine Lambert,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,justine@blackforestlabs.ai,found,hunter_domain_search,group_b
+49,13,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+50,13,Paul Shin,VP Marketing or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,paul.shin@lakera.ai,found,hunter_domain_search,group_b
+51,13,Francesca Amabile,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,francesca.amabile@lakera.ai,found,hunter_domain_search,group_b
+52,14,Ben Kiziltug,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,ben@n8n.io,found,hunter_domain_search,group_b
+53,14,Erla Jonsdottir,VP Marketing or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,erla@n8n.io,found,hunter_domain_search,group_b
+54,14,Elena Ayvazyan,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,elena@n8n.io,found,hunter_domain_search,group_b
+55,15,Alessandro Cappelli,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,alessandro@adaptive-ml.com,found,hunter_domain_search,group_a
+56,15,Andrew Jardine,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,andrew@adaptive-ml.com,found,hunter_domain_search,group_a
+57,15,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+58,22,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+59,22,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+60,22,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+61,41,Michael (TO_RESEARCH last name),CEO/Hiring Manager,LinkedIn,,warm,Responded positively 2026-04-15; wants to connect about outbound automation approach,,,,group_a
+62,12,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+63,12,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+64,12,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+65,16,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+66,16,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+67,16,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+68,17,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+69,17,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+70,17,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+71,18,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+72,18,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+73,18,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+74,19,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+75,19,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+76,19,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+77,20,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+78,20,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+79,20,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+80,42,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+81,42,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+82,42,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+83,43,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+84,43,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+85,43,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+86,44,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+87,44,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+88,44,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+89,45,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+90,45,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+91,45,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+92,27,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+93,27,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+94,27,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+95,28,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+96,28,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+97,28,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+98,29,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+99,29,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+100,29,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+101,30,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+102,30,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+103,30,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+104,31,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+105,31,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+106,31,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+107,32,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+108,32,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+109,32,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+110,33,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+111,33,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+112,33,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+113,34,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+114,34,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+115,34,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+116,35,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+117,35,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+118,35,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+119,36,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+120,36,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+121,36,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+122,37,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+123,37,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+124,37,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+125,38,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+126,38,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+127,38,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+128,39,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+129,39,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+130,39,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+131,40,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+132,40,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+133,40,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+134,46,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+135,46,TO_RESEARCH,GTM lead,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+136,46,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+137,47,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+138,47,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+139,47,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+140,48,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+141,48,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+142,48,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+143,49,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+144,49,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+145,49,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_b
+146,50,TO_RESEARCH,CEO/Co-founder,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+147,50,TO_RESEARCH,VP Sales or GTM,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a
+148,50,TO_RESEARCH,People,LinkedIn,,cold,Find on LinkedIn; personalize first line,,,,group_a

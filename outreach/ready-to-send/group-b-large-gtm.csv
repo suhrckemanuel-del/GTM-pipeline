@@ -1,0 +1,23 @@
+﻿company_id,company,split_test_group,to_name,to_email,subject,body,send_date,sent
+21,Clerq,group_b,,,Clerq vertical proof — quick messaging test,"Hi {{FirstName}} — high-ticket payments GTM often stalls because each vertical has different objections. I’d run a disciplined test: same core demo, three vertical wrappers, measure reply → meeting.",,no
+23,Payabli,group_b,Marielle Mekkaoui,marielle@payabli.com,Payabli embedded finance messaging — quick idea,Hi Marielle — embedded payments growth usually comes from enabling partners to sell payments as a feature. I’d measure whether co-marketing kits improve activation vs docs-only onboarding.,,no
+4,Kestra,group_b,David Khan,dkhan@kestra.io,Kestra workflow messaging — quick test idea,"Hi David — I’d run a simple experiment: pattern-specific landing sections + paid/organic entry points, measure demo request quality by pattern.",,no
+5,FlexAI,group_b,Stéphane Roy,stephane.roy@flex.ai,FlexAI workload story — split-funnel idea,Hi Stéphane — buyers often bucket AI compute as undifferentiated GPU rental until they see their pattern (train / fine-tune / infer) and proof. Worth a deliberate test: two entry paths + one scenario story per path?,,no
+6,Maisa AI,group_b,,,Maisa AI positioning — one experiment,"Hi {{FirstName}} — if demos feel mixed (RevOps vs finance vs IT), a tight vertical proof on the homepage often pre-qualifies pipeline. Curious if you’re already running a flagship vertical test.",,no
+10,Lovable,group_b,Henrik Westerlund,henrik@lovable.dev,Lovable messaging clarity — quick thought,Hi Henrik — curious if you’re already running experiments on upgrade triggers by cohort (indie vs agency vs small team). I’d align messaging to those triggers instead of a one-size upgrade path.,,no
+11,Black Forest Labs,group_b,Owais,owais@blackforestlabs.ai,BFL enterprise path — one experiment (Sarah pointed me your way),”Hi Owais — I reached out to Sarah last week about Black Forest Labs' enterprise positioning and got her OOO. She listed you for Marketing/Growth, so figured I'd reach out directly.
+
+Enterprise teams evaluating model providers ask a different first question than developers do. Developers want to know if the model is good. Enterprise buyers want to know what happens when it changes. Versioning policy, deprecation windows, SLOs for API tiers. Without that being clearly documented, the objection you'll keep hearing is “”we'll wait for stability”” and that one is almost impossible to close on.
+
+Black Forest Labs has a strong model quality story. The gap worth closing is the production partnership narrative: what your versioning policy actually is, how much notice customers get before a breaking change, and what migration looks like between model families. One reference workload in customer language would help too, something anchored to a specific use case (document processing, agent pipelines, whatever your best enterprise fit actually is) rather than benchmark comparisons. That combination tends to cut enterprise eval cycles because you've already answered the questions procurement was going to ask.
+
+If that already exists somewhere and I missed it, ignore this. But if it doesn't, it's probably costing you deal cycles right now.
+
+Happy to think through what that page or section could look like.
+
+I'm looking at early GTM roles in AI infrastructure startups in Europe right now. Black Forest Labs is on my radar.
+
+Manuel”,,no
+13,Lakera AI,group_b,Paul Shin,paul.shin@lakera.ai,Lakera AI positioning — quick idea,"Hi Paul — curious how you balance developer-led adoption with enterprise procurement. Dual paths usually reduce “cool demo, unclear enterprise fit.”",,no
+14,n8n,group_b,Erla Jonsdottir,erla@n8n.io,n8n OSS-to-commercial boundary — test idea,Hi Erla — buyers compare n8n to Zapier/Make and internal build. A crisp commercial boundary story usually shortens evals. Are you running explicit tests on that boundary?,,no
+22,OpenFX,group_b,,,OpenFX GTM story — one experiment,"Hi {{FirstName}} — for SEA (or your next geography), buyers often compare you to players with local proof. A corridor narrative + named onboarding steps can reduce “we need someone who has done this here.”",,no

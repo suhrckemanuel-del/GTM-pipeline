@@ -1,0 +1,116 @@
+﻿company_id,domain,email,first_name,last_name,position,confidence,linkedin
+1,gleef.eu,antoine@gleef.eu,Antoine,Borrelly,Co-Founder,99,https://www.linkedin.com/in/antoine-borrelly-5a008b176
+1,gleef.eu,simone@gleef.eu,Simone,Zanni,Full Stack Developer,98,https://www.linkedin.com/in/simone-zanni-4389478b
+1,gleef.eu,contact@gleef.eu,,,,81,
+1,gleef.eu,support@gleef.eu,,,,81,
+1,gleef.eu,contract_notices@gleef.eu,,,,75,
+3,enginy.eu,mail@enginy.eu,,,,81,
+4,kestra.io,edarras@kestra.io,Emmanuel,Darras,CEO,99,https://www.linkedin.com/in/emmanuel-darras
+4,kestra.io,rgrabnar@kestra.io,Rok,Grabnar,Data Engineer,99,https://www.linkedin.com/in/rok-grabnar-a5050790
+4,kestra.io,ycoornaert@kestra.io,Yann,Coornaert,Software Engineer,99,https://www.linkedin.com/in/yannc
+4,kestra.io,alin@kestra.io,Antoine,Lin,Finance Manager,98,https://www.linkedin.com/in/antoine-lin-a49aaa74
+4,kestra.io,bpimpaud@kestra.io,Benoit,Pimpaud,Data Engineer,98,https://www.linkedin.com/in/benoit-pimpaud-181254110
+4,kestra.io,bledoux@kestra.io,Bart,Ledoux,Senior Frontend Developer,97,https://www.linkedin.com/in/bartledoux
+4,kestra.io,nkwiatkowski@kestra.io,Nicolas,Kwiatkowski,Senior Developer,97,https://www.linkedin.com/in/nicolas-kwiatkowski-a75217169
+4,kestra.io,msabatini@kestra.io,Marco,Sabatini,Platform Engineer,66,https://www.linkedin.com/in/marco-sabatini-69b127152
+4,kestra.io,dkhan@kestra.io,David,Khan,Sales Manager,66,https://www.linkedin.com/in/david-khan-40399419
+4,kestra.io,lmathieu@kestra.io,,,,96,
+5,flex.ai,stephane.roy@flex.ai,Stéphane,Roy,Director of Revenue Operations,99,https://www.linkedin.com/in/stéphane-roy-06146347
+5,flex.ai,akshay.kumpawat@flex.ai,Akshay,Kumpawat,Director of Project Management Office,97,https://www.linkedin.com/in/akshaypmo
+5,flex.ai,brijesh.tripathi@flex.ai,Brijesh,Tripathi,CEO,96,https://www.linkedin.com/in/btripathi
+5,flex.ai,guilhem.cheron@flex.ai,Guilhem,Chéron,MLOps Engineer,99,https://www.linkedin.com/in/guilhem-chéron-90036545
+5,flex.ai,dhia.gharsallaoui@flex.ai,Dhia,Gharsallaoui,Senior Site Reliability Engineer,99,https://www.linkedin.com/in/gharsallaoui-dhia-eddine
+5,flex.ai,vincent.trumpff@flex.ai,Vincent,Trumpff,Senior Machine Learning Engineer,98,https://www.linkedin.com/in/vincent-trumpff-60a032104
+5,flex.ai,michel.courtois@flex.ai,Michel,Courtois,Technical Recruiter,98,https://www.linkedin.com/in/michel-courtois-b7884
+5,flex.ai,jean-noel.quintin@flex.ai,Jean-Noël,Quintin,Senior Performance Engineer,98,https://www.linkedin.com/in/jean-noël-quintin-31a32b112
+5,flex.ai,adam.king@flex.ai,Adam,King,Operations Consultant,96,https://www.linkedin.com/in/adaminatx
+5,flex.ai,legal@flex.ai,,,,95,
+6,maisa.ai,manuel@maisa.ai,Manuel,Romero,Chief Scientific Officer,99,https://www.linkedin.com/in/manuel-romero-77a46036
+6,maisa.ai,contact@maisa.ai,,,,80,
+7,paid.ai,manoj@paid.ai,Manoj,Ganapathy,Chief Product Officer,99,https://www.linkedin.com/in/gmanojkumar
+7,paid.ai,nataly@paid.ai,Nataly,Schammel,Operations Manager,98,https://www.linkedin.com/in/nataly-schammel-b62b78104
+7,paid.ai,stoyan@paid.ai,Stoyan,Binev,Software Engineer,97,https://www.linkedin.com/in/stoyanbinev
+7,paid.ai,zhalyn@paid.ai,Zhalyn,Kabyken,Founding Engineer,96,https://www.linkedin.com/in/zkabyken
+7,paid.ai,hello@paid.ai,,,,77,
+9,cognee.ai,boris@cognee.ai,Boris,Arzentar,Co-Founder,99,https://www.linkedin.com/in/boris-arzentar
+9,cognee.ai,hello@cognee.ai,,,,77,
+10,lovable.dev,anton@lovable.dev,Anton,Osika,Co-Founder,99,https://www.linkedin.com/in/antonosika
+10,lovable.dev,andrii@lovable.dev,Andrii,Sydorchuk,Software Engineer,99,https://www.linkedin.com/in/asydorchuk
+10,lovable.dev,henrik@lovable.dev,Henrik,Westerlund,Marketing Manager,99,https://www.linkedin.com/in/henrik-westerlund-ba9256287
+10,lovable.dev,bengisu@lovable.dev,Bengisu,Bayraktar,Contractor,99,https://www.linkedin.com/in/bengisu-bayraktar-0b5bb2115
+10,lovable.dev,sebastian@lovable.dev,Sebastian,Schaaf,Product Manager,99,https://www.linkedin.com/in/sebastianschaaf
+10,lovable.dev,aleksander@lovable.dev,Aleksander,Heino,Staff Member,99,https://www.linkedin.com/in/aleksanderheino
+10,lovable.dev,jamie@lovable.dev,Jamie,Chen,Head of Revenue Operations,99,https://www.linkedin.com/in/themagichen
+10,lovable.dev,sophia@lovable.dev,Sophia,Gustafsson,Community Manager,99,https://www.linkedin.com/in/sophia-nabil-gustafsson
+10,lovable.dev,sergey@lovable.dev,Sergey,Evstifeev,Software Engineer,98,https://www.linkedin.com/in/sergeyevstifeev
+10,lovable.dev,nathan@lovable.dev,Nathan,Lee,Software Engineer,98,https://www.linkedin.com/in/nathan-lee-109375a8
+11,blackforestlabs.ai,sarah@blackforestlabs.ai,Sarah,Nöckel,Chief of Staff,98,https://www.linkedin.com/in/sarahnoeckel
+11,blackforestlabs.ai,sumith@blackforestlabs.ai,Sumith,Kulal,Co-Founder,98,https://www.linkedin.com/in/sumith-kulal-6a1a80113
+11,blackforestlabs.ai,axel@blackforestlabs.ai,Axel,Sauer,Co-Founder,97,https://www.linkedin.com/in/axel-sauer
+11,blackforestlabs.ai,justine@blackforestlabs.ai,Justine,Lambert,Talent Acquisition Specialist,99,https://www.linkedin.com/in/justine-lambert-b0383b58
+11,blackforestlabs.ai,luke@blackforestlabs.ai,Luke,Smith,Software Engineer,99,https://www.linkedin.com/in/luke-smith-782b711aa
+11,blackforestlabs.ai,yam@blackforestlabs.ai,Yam,Levi,Research Engineer,99,https://www.linkedin.com/in/yam-levi-apx
+11,blackforestlabs.ai,ian@blackforestlabs.ai,Ian,Saavedra,Research Scientist,99,https://www.linkedin.com/in/ian-saavedra-a8a691310
+11,blackforestlabs.ai,sebastian@blackforestlabs.ai,Sebastian,Schröder,,99,https://www.linkedin.com/in/schroederseb
+11,blackforestlabs.ai,stephen@blackforestlabs.ai,Stephen,Batifol,Developer Advocate,98,https://www.linkedin.com/in/stephen-batifol
+11,blackforestlabs.ai,nihanth@blackforestlabs.ai,Nihanth,Subramanya,Software Engineer,98,https://www.linkedin.com/in/nhnt11
+13,lakera.ai,matthias@lakera.ai,Matthias,Kraft,CTO,99,https://www.linkedin.com/in/matthias-kraft-5b1229a1
+13,lakera.ai,jd@lakera.ai,Janet,Darling,Director of Operations,98,https://www.linkedin.com/in/janet-darling-70815a42
+13,lakera.ai,mateo@lakera.ai,Mateo,Rojas,Chief Scientist,98,https://www.linkedin.com/in/mateor
+13,lakera.ai,kristen@lakera.ai,Kristen,Frino,Director of Operations,97,https://www.linkedin.com/in/kristen-frino-72909332
+13,lakera.ai,paul.shin@lakera.ai,Paul,Shin,Senior Account Executive,99,https://www.linkedin.com/in/paul-j-shin
+13,lakera.ai,yuexia.lin@lakera.ai,Yuexia,Lin,Senior Software Engineer,99,https://www.linkedin.com/in/yuexia-luna-lin-09b39a49
+13,lakera.ai,jakub.podolak@lakera.ai,Jakub,Podolak,Machine Learning Engineer,99,https://www.linkedin.com/in/jakub-podolak-81b300200
+13,lakera.ai,francesca.amabile@lakera.ai,Francesca,Amabile,Talent Acquisition Manager,99,https://www.linkedin.com/in/francesca-amabile
+13,lakera.ai,andreas.signer@lakera.ai,Andreas,Signer,Staff Software Engineer,99,https://www.linkedin.com/in/andreas-signer-ab150a2
+13,lakera.ai,jonathan.rodriguez@lakera.ai,Jonathan,Rodriguez,,98,https://www.linkedin.com/in/jonathan-rgz
+14,n8n.io,ben@n8n.io,Ben,Kiziltug,Vice President of Sales,99,https://www.linkedin.com/in/benkiziltug
+14,n8n.io,niklas@n8n.io,Niklas,Hatje,Head of Product,99,https://www.linkedin.com/in/niklashatje
+14,n8n.io,david@n8n.io,David,Roberts,Vice President of Product and Design,99,https://www.linkedin.com/in/david-roberts-52b11922
+14,n8n.io,gualter@n8n.io,Gualter,Augusto,Director of Support Engineering,97,https://www.linkedin.com/in/gualterandre
+14,n8n.io,cornelius@n8n.io,Cornelius,Suermann,Vice President of Engineering,97,https://www.linkedin.com/in/csuermann
+14,n8n.io,jan@n8n.io,Jan,Oberhauser,CEO,96,https://www.linkedin.com/in/janoberhauser
+14,n8n.io,erla@n8n.io,Erla,Jonsdottir,Account Executive,99,https://www.linkedin.com/in/erla-bjork-jonsdottir-4a999415a
+14,n8n.io,kai.jamel@n8n.io,Kai,Jamel,Sales Development Representative,99,https://www.linkedin.com/in/kai-jamel-567a0118a
+14,n8n.io,elena@n8n.io,Elena,Ayvazyan,Talent Acquisition Manager,99,https://www.linkedin.com/in/elena-ayvazyan-5b313a55
+14,n8n.io,peter@n8n.io,Peter,Boledziuk,Data Analyst,99,https://www.linkedin.com/in/pboled
+15,adaptive-ml.com,andrew@adaptive-ml.com,Andrew,Jardine,Head of Go-to-Market,98,https://www.linkedin.com/in/andrew-iain-jardine
+15,adaptive-ml.com,julien@adaptive-ml.com,Julien,Launay,Chief Executive Officer,98,https://www.linkedin.com/in/julienlaunay
+15,adaptive-ml.com,axel@adaptive-ml.com,Axel,Marmet,Co-Founder,97,https://www.linkedin.com/in/axel-marmet-19784a206
+15,adaptive-ml.com,baptiste@adaptive-ml.com,Baptiste,Pannier,CTO,96,https://www.linkedin.com/in/baptiste-pannier-b30758154
+15,adaptive-ml.com,vincent.brisse@adaptive-ml.com,Vincent,Brisse,AI Engineer,99,https://www.linkedin.com/in/vincent-brisse-a6871912a
+15,adaptive-ml.com,alessandro@adaptive-ml.com,Alessandro,Cappelli,Co-Founder,99,https://www.linkedin.com/in/alessandro-cappelli-aa8060172
+15,adaptive-ml.com,guillaume@adaptive-ml.com,Guillaume,Bertrand,Research Engineer,99,https://www.linkedin.com/in/guillaume-bertrand-450519162
+15,adaptive-ml.com,raphael@adaptive-ml.com,Raphaël,Olivier,AI Research Scientist,97,https://www.linkedin.com/in/raphaël-olivier-a01342106
+15,adaptive-ml.com,simon@adaptive-ml.com,Simon,Cadec,Frontend Developer,96,https://www.linkedin.com/in/simoncadec
+15,adaptive-ml.com,vincent@adaptive-ml.com,Vincent,Debergue,Senior Backend Engineer,66,https://www.linkedin.com/in/vincentdebergue
+23,payabli.com,maria@payabli.com,Maria,Angoitia,Director of Operations,99,https://www.linkedin.com/in/maria-romano-de-angoitia-86190198
+23,payabli.com,tianah@payabli.com,Tianah,J,Director of Customer Success,98,https://www.linkedin.com/in/tianah-j-36828b122
+23,payabli.com,marielle@payabli.com,Marielle,Mekkaoui,Marketing Director,98,https://www.linkedin.com/in/marielle-mekkaoui-98441789
+23,payabli.com,max@payabli.com,Max,Euston,Director of Engineering,97,https://www.linkedin.com/in/maxeuston
+23,payabli.com,nicole@payabli.com,Nicole,Walker,Director of Compliance,97,https://www.linkedin.com/in/nicole-walker-aa2ab12b0
+23,payabli.com,clayton@payabli.com,Clayton,Smith,Director of Operations,97,https://www.linkedin.com/in/davidclaytonsmith
+23,payabli.com,maourice@payabli.com,Maourice,Gonzalez,Director of Engineering,97,https://www.linkedin.com/in/maourice-gonzalez
+23,payabli.com,johnny@payabli.com,Johnny,Mejias,Engineering Manager,96,https://www.linkedin.com/in/johnnymejias
+23,payabli.com,anthony@payabli.com,Anthony,Alonzo,Product Manager,99,https://www.linkedin.com/in/anthony-alonzo-79434350
+23,payabli.com,oscar@payabli.com,Oscar,Solis,Lead AI Engineer,99,https://www.linkedin.com/in/oasolis
+24,basistheory.com,cl@basistheory.com,Colin,Luce,Chief Executive Officer,99,https://www.linkedin.com/in/colinthomasluce
+24,basistheory.com,valerie@basistheory.com,Valerie,Teverovska,Sales Development Manager,98,https://www.linkedin.com/in/teverovska
+24,basistheory.com,james@basistheory.com,James,Armstead,Chief Technology Officer,97,https://www.linkedin.com/in/armsteadj1
+24,basistheory.com,eryn@basistheory.com,Eryn,Lüders,Marketing Director,97,https://www.linkedin.com/in/erynlueders
+24,basistheory.com,grant@basistheory.com,Grant,Crider,Vice President of Sales,96,https://www.linkedin.com/in/grantcrider
+24,basistheory.com,casey@basistheory.com,Casey,Clegg,President,96,https://www.linkedin.com/in/casey-clegg-a7a3a11
+24,basistheory.com,conner@basistheory.com,Conner,Nannini,Finance Director,69,https://www.linkedin.com/in/connern
+24,basistheory.com,brandon@basistheory.com,Brandon,Sterne,Chief Information Security Officer,68,https://www.linkedin.com/in/brandonsterne
+24,basistheory.com,lucas@basistheory.com,Lucas,Chociay,Senior Software Engineer,99,https://www.linkedin.com/in/lucas-chociay
+24,basistheory.com,lucy@basistheory.com,Lucy,Hurley,Sales Development Representative,99,https://www.linkedin.com/in/lucyhurley22
+26,autone.io,paul@autone.io,Paul,Jehle,CFO,94,https://www.linkedin.com/in/pjehle
+26,autone.io,adil@autone.io,Adil,Bouhdadi,Co-Founder & CEO,94,https://www.linkedin.com/in/adilbouhdadi
+26,autone.io,matteo@autone.io,Matteo,Montanari,Director of Customer Experience,93,https://www.linkedin.com/in/matteo-andrea-montanari-319b064b
+26,autone.io,ilaria@autone.io,Ilaria,Cattozzi,Head of Customer Success,93,https://www.linkedin.com/in/ilaria-cattozzi-8128bb11a
+26,autone.io,harry@autone.io,Harry,Cheslaw,Co-Founder,91,https://www.linkedin.com/in/harry-glucksmann-cheslaw-87811177
+26,autone.io,driss@autone.io,Driss,Anouhal,Director of Delivery,90,https://www.linkedin.com/in/driss-anouhal-6597791b9
+26,autone.io,rita@autone.io,Rita,Berrada,General Manager,94,https://www.linkedin.com/in/rita-berrada-35067952
+26,autone.io,jaime@autone.io,Jaime,Lennox,Senior Software Engineer,94,https://www.linkedin.com/in/jaimelennox
+26,autone.io,eduard@autone.io,Eduard,Jané,Country Manager,94,https://www.linkedin.com/in/eduard-jané-b70a4713
+26,autone.io,nasser@autone.io,Nasser,Chowdhury,Founder Associate,93,https://www.linkedin.com/in/nasser-chowdhury-16aa36181

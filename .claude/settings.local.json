@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/build_contacts_outreach.py)",
+      "Bash(python scripts/generate_outreach_emails.py --dry-run)",
+      "Bash(python scripts/domain_search.py)",
+      "Bash(python scripts/generate_outreach_emails.py)",
+      "Bash(python scripts/send_via_gmail.py --csv outreach/ready-to-send/group-a-small-ceo.csv --dry-run)",
+      "Bash(python scripts/send_via_gmail.py --csv outreach/ready-to-send/group-b-large-gtm.csv --dry-run)",
+      "Bash(python scripts/domain_search.py --from-cache --force)",
+      "Bash(gh repo:*)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:sierra.ai)",
+      "WebFetch(domain:www.merantix.com)",
+      "WebFetch(domain:www.linkedin.com)",
+      "WebFetch(domain:uk.linkedin.com)",
+      "WebFetch(domain:merantix.com)",
+      "WebSearch",
+      "WebFetch(domain:www.thetwentyminutevc.com)",
+      "WebFetch(domain:news.merantix-capital.com)",
+      "WebFetch(domain:contactout.com)",
+      "WebFetch(domain:theorg.com)",
+      "WebFetch(domain:en.merantix-momentum.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(awk -F',' '{print $2, $1}')",
+      "WebFetch(domain:github.com)",
+      "Skill(claude-api)",
+      "Bash(start *)",
+      "Bash(pandoc \"c:/Users/User/Downloads/Untitled document.docx\" -t plain)",
+      "Bash(python -c \"from docx import Document; doc = Document\\('c:/Users/User/Downloads/Untitled document.docx'\\); print\\('\\\\n'.join\\([p.text for p in doc.paragraphs]\\)\\)\")",
+      "Bash(pip install *)",
+      "Bash(python *)",
+      "WebFetch(domain:www.akirolabs.com)",
+      "WebFetch(domain:akirolabs.com)",
+      "WebFetch(domain:procurementmag.com)",
+      "Bash(npx --version)",
+      "Bash(claude mcp *)"
+    ]
+  }
+}
