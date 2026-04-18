@@ -1,5 +1,11 @@
-﻿.DS_Store
+.DS_Store
 Thumbs.db
 *.tmp
 ~$*
 .env
+__pycache__/
+*.pyc
+*.pyo
+streamlit_*.log
+streamlit_*.err
+.claude/
