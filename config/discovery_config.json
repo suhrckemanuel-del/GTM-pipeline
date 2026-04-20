@@ -1,0 +1,13 @@
+{
+  "regions": ["Germany", "Austria", "Switzerland"],
+  "industries": [
+    "Automotive (Tier 1 suppliers)",
+    "Banking/Financial Services",
+    "Chemicals",
+    "Pharma/Life Sciences",
+    "Energy/Utilities",
+    "Industrial Manufacturing"
+  ],
+  "headcount_min": 1000,
+  "headcount_max": 50000
+}

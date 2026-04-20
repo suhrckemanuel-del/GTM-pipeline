@@ -12,6 +12,7 @@ call — no creative writing, no regex parsing.
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import List
 
 import requests
@@ -144,6 +145,8 @@ def _fetch_hunter_contacts(company: str, limit: int = 10) -> tuple[str, List[Con
 # ---------------------------------------------------------------------------
 # ICP Tier classification (structured output)
 # ---------------------------------------------------------------------------
+_ICP_CONFIG_FILE = Path(__file__).resolve().parents[2] / "config" / "icp_definition.txt"
+
 ICP_SYSTEM = """\
 You are the ICP-tier classifier for Akirolabs (a category-strategy automation \
 platform for large enterprise procurement).
@@ -156,6 +159,13 @@ or multi-country procurement organisation. Best long-term ACV.
 
 Use any clues in the research summary (regions, divisions, revenue, headcount, \
 listed status) to make your call. Be decisive — pick exactly one tier."""
+
+
+def _load_icp_prompt() -> str:
+    try:
+        return _ICP_CONFIG_FILE.read_text(encoding="utf-8").strip()
+    except Exception:
+        return ICP_SYSTEM
 
 
 def _classify_icp(company: str, industry: str, summary: str) -> ICPClassification:
@@ -176,7 +186,7 @@ def _classify_icp(company: str, industry: str, summary: str) -> ICPClassificatio
     )
     try:
         result: ICPClassification = structured.invoke(
-            [SystemMessage(content=ICP_SYSTEM), HumanMessage(content=user)]
+            [SystemMessage(content=_load_icp_prompt()), HumanMessage(content=user)]
         )
     except Exception:
         return ICPClassification(

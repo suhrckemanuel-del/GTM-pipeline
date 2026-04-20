@@ -4,9 +4,10 @@ akirolabs_bdr_v2.py — V2 dashboard for the 4-step LangGraph BDR pipeline.
 Run:
     streamlit run app/akirolabs_bdr_v2.py
 
-Two entry points:
-  - Pipeline tab  : click any of the 14 discovered prospects → runs the workflow
+Three entry points:
+  - Pipeline tab  : click any of the discovered prospects → runs workflow (cache-first)
   - Live Input tab: type any company name → runs the workflow
+  - Settings tab  : edit the ICP tier definition + manage cached outputs
 
 Pipeline (all in app/agents/ + app/services/):
     1. Enrichment   — Exa news + Hunter.io contacts + ICP tier
@@ -17,9 +18,12 @@ Pipeline (all in app/agents/ + app/services/):
 from __future__ import annotations
 
 import csv
+import json
 import os
+import re
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 import streamlit as st
@@ -34,12 +38,11 @@ _SECRET_KEYS = (
     "NOTION_API_KEY", "NOTION_DATABASE_ID",
 )
 try:
-    # st.secrets is only available after st is imported — safe here
     for _k in _SECRET_KEYS:
         if _k not in os.environ and _k in st.secrets:
             os.environ[_k] = st.secrets[_k]
 except Exception:
-    pass  # not on Streamlit Cloud or secrets not configured yet
+    pass
 
 _env_path = ROOT / ".env"
 if _env_path.is_file():
@@ -58,7 +61,13 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-from app.agents.state import ANGLE_DESCRIPTIONS  # noqa: E402
+from app.agents.state import (  # noqa: E402
+    ANGLE_DESCRIPTIONS,
+    CRMSyncResult,
+    EnrichmentResult,
+    ProspectCard,
+    StrategyDecision,
+)
 from app.agents.workflow_engine import (  # noqa: E402
     NODE_ORDER,
     build_workflow,
@@ -67,6 +76,129 @@ from app.agents.workflow_engine import (  # noqa: E402
 
 PROSPECTS_CSV = ROOT / "pipeline" / "akirolabs" / "prospects.csv"
 DISCOVER_SCRIPT = ROOT / "scripts" / "discover_akirolabs_prospects.py"
+SAVED_STATES_DIR = ROOT / "pipeline" / "akirolabs" / "saved_states"
+ICP_CONFIG_FILE = ROOT / "config" / "icp_definition.txt"
+DISCOVERY_CONFIG_FILE = ROOT / "config" / "discovery_config.json"
+
+_ICP_DEFAULT = (
+    "You are the ICP-tier classifier for Akirolabs (a category-strategy automation "
+    "platform for large enterprise procurement).\n\n"
+    "Tiers:\n"
+    "  - Tier 1: Strategic enterprise. Revenue >= ~€5B OR headcount >= ~50k. "
+    "Multi-division or multi-country procurement organisation. Best long-term ACV.\n"
+    "  - Tier 2: Mid-large. Revenue €1-5B OR headcount 10-50k. Single CPO + small team.\n"
+    "  - Tier 3: Below those bands or unclear scale. Less likely fit today.\n\n"
+    "Use any clues in the research summary (regions, divisions, revenue, headcount, "
+    "listed status) to make your call. Be decisive — pick exactly one tier."
+)
+
+
+# ---------------------------------------------------------------------------
+# Persistence helpers
+# ---------------------------------------------------------------------------
+def _company_slug(company: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", company.lower()).strip("_")
+
+
+def _save_state(company: str, state: dict) -> None:
+    SAVED_STATES_DIR.mkdir(parents=True, exist_ok=True)
+    data = {}
+    for key, val in state.items():
+        data[key] = val.model_dump() if hasattr(val, "model_dump") else val
+    (SAVED_STATES_DIR / f"{_company_slug(company)}.json").write_text(
+        json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+
+
+def _load_state(company: str) -> dict | None:
+    path = SAVED_STATES_DIR / f"{_company_slug(company)}.json"
+    if not path.is_file():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    _MODELS = {
+        "enrichment": EnrichmentResult,
+        "strategy": StrategyDecision,
+        "card": ProspectCard,
+        "crm_result": CRMSyncResult,
+    }
+    for key, cls in _MODELS.items():
+        if key in data and data[key] is not None:
+            try:
+                data[key] = cls.model_validate(data[key])
+            except Exception:
+                data[key] = None
+    return data
+
+
+def _has_saved_state(company: str) -> bool:
+    return (SAVED_STATES_DIR / f"{_company_slug(company)}.json").is_file()
+
+
+def _load_icp_text() -> str:
+    try:
+        return ICP_CONFIG_FILE.read_text(encoding="utf-8")
+    except Exception:
+        return _ICP_DEFAULT
+
+
+def _save_icp_text(text: str) -> None:
+    ICP_CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    ICP_CONFIG_FILE.write_text(text, encoding="utf-8")
+
+
+_DISCOVERY_CONFIG_DEFAULT = {
+    "regions": ["Germany", "Austria", "Switzerland"],
+    "industries": [
+        "Automotive (Tier 1 suppliers)",
+        "Banking/Financial Services",
+        "Chemicals",
+        "Pharma/Life Sciences",
+        "Energy/Utilities",
+        "Industrial Manufacturing",
+    ],
+    "headcount_min": 1000,
+    "headcount_max": 50000,
+}
+
+
+def _load_discovery_config() -> dict:
+    try:
+        raw = json.loads(DISCOVERY_CONFIG_FILE.read_text(encoding="utf-8"))
+        merged = dict(_DISCOVERY_CONFIG_DEFAULT)
+        merged.update(raw)
+        return merged
+    except Exception:
+        return dict(_DISCOVERY_CONFIG_DEFAULT)
+
+
+def _save_discovery_config(cfg: dict) -> None:
+    DISCOVERY_CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    DISCOVERY_CONFIG_FILE.write_text(json.dumps(cfg, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def _set_prospect_status(company_name: str, new_status: str) -> None:
+    if not PROSPECTS_CSV.is_file():
+        return
+    with PROSPECTS_CSV.open(newline="", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        fieldnames = list(reader.fieldnames or [])
+        rows = list(reader)
+    if "status" not in fieldnames:
+        fieldnames.append("status")
+    for row in rows:
+        if row.get("company", "").strip().lower() == company_name.strip().lower():
+            row["status"] = new_status
+        if not row.get("status"):
+            row["status"] = "active"
+    with PROSPECTS_CSV.open("w", newline="", encoding="utf-8-sig") as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(rows)
+    st.cache_data.clear()
+
 
 # ---------------------------------------------------------------------------
 # Styling
@@ -192,7 +324,7 @@ def priority_badge_html(p: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Notion sync toggle (shared by both tabs)
+# Notion sync toggle (shared by Pipeline + Live Input tabs)
 # ---------------------------------------------------------------------------
 sync_default = notion_ok
 sync_toggle = st.checkbox(
@@ -208,9 +340,13 @@ if not api_ok:
 st.divider()
 
 # ---------------------------------------------------------------------------
-# Two-tab layout
+# Three-tab layout
 # ---------------------------------------------------------------------------
-tab_pipeline, tab_live = st.tabs(["📋 Pipeline (discovered prospects)", "✏️ Live Input"])
+tab_pipeline, tab_live, tab_settings = st.tabs([
+    "📋 Pipeline (discovered prospects)",
+    "✏️ Live Input",
+    "⚙️ Settings",
+])
 
 # ---- Tab 1: Pipeline -------------------------------------------------------
 with tab_pipeline:
@@ -224,11 +360,13 @@ with tab_pipeline:
             disabled=not api_ok,
         )
     with col_count:
+        _active = [r for r in prospects if r.get("status", "active") == "active"]
+        _arch   = [r for r in prospects if r.get("status", "active") in ("archived", "won")]
         st.caption(
-            f"{len(prospects)} companies in pipeline · "
-            f"{sum(1 for r in prospects if r.get('priority') == '1')} P1 · "
-            f"{sum(1 for r in prospects if r.get('priority') == '2')} P2 · "
-            f"{sum(1 for r in prospects if r.get('priority') == '3')} P3"
+            f"{len(_active)} active · {len(_arch)} archived/won · "
+            f"{sum(1 for r in _active if r.get('priority') == '1')} P1 · "
+            f"{sum(1 for r in _active if r.get('priority') == '2')} P2 · "
+            f"{sum(1 for r in _active if r.get('priority') == '3')} P3"
         )
 
     if discover_clicked:
@@ -244,38 +382,100 @@ with tab_pipeline:
         else:
             st.error(f"Discovery failed:\n{result.stderr[:400] or result.stdout[:400]}")
 
-    if not prospects:
+    show_archived = st.checkbox("Show archived / won companies", value=False, key="show_archived")
+
+    active_prospects   = [r for r in prospects if r.get("status", "active") == "active"]
+    archived_prospects = [r for r in prospects if r.get("status", "active") in ("archived", "won")]
+    display_prospects  = active_prospects + (archived_prospects if show_archived else [])
+
+    if not display_prospects:
         st.info(
             "No prospects found. Click **Discover More Companies** or run "
             "`python scripts/discover_akirolabs_prospects.py` first."
         )
     else:
         st.markdown("")
-        header_cols = st.columns([1, 3, 4, 2])
+        header_cols = st.columns([1, 3, 3, 2, 2])
         header_cols[0].markdown("**Pri**")
         header_cols[1].markdown("**Company**")
         header_cols[2].markdown("**Industry**")
-        header_cols[3].markdown("")
+        header_cols[3].markdown("**Actions**")
+        header_cols[4].markdown("")
 
-        for row in prospects:
-            c_pri, c_company, c_industry, c_btn = st.columns([1, 3, 4, 2])
+        for row in display_prospects:
+            company_name = row.get("company", "")
+            status       = row.get("status", "active")
+            is_cached    = _has_saved_state(company_name)
+            is_archived  = status in ("archived", "won")
+
+            c_pri, c_company, c_industry, c_actions, c_run = st.columns([1, 3, 3, 2, 2])
+
             c_pri.markdown(
                 priority_badge_html(row.get("priority", "3")),
                 unsafe_allow_html=True,
             )
-            c_company.markdown(f"**{row.get('company', '')}**")
-            c_industry.caption(row.get("industry", ""))
-            with c_btn:
-                if st.button(
-                    "Generate & Sync →",
-                    key=f"run_pipeline_{row.get('id', row.get('company', ''))}",
-                    disabled=not api_ok,
-                    use_container_width=True,
-                ):
-                    st.session_state["_run_company"] = row.get("company", "")
-                    st.session_state["_run_industry"] = row.get("industry", "")
-                    st.session_state["_run_triggered"] = True
-                    st.rerun()
+
+            if is_archived:
+                c_company.markdown(
+                    f"<span style='color:#a0aec0'>{company_name}</span>",
+                    unsafe_allow_html=True,
+                )
+            else:
+                c_company.markdown(f"**{company_name}**")
+
+            industry_label = row.get("industry", "")
+            if is_cached and not is_archived:
+                industry_label += " _(cached)_"
+            c_industry.caption(industry_label)
+
+            with c_actions:
+                if not is_archived:
+                    col_arch, col_won = st.columns(2)
+                    with col_arch:
+                        if st.button(
+                            "Archive",
+                            key=f"arch_{row.get('id', company_name)}",
+                            use_container_width=True,
+                        ):
+                            _set_prospect_status(company_name, "archived")
+                            st.rerun()
+                    with col_won:
+                        if st.button(
+                            "Won ✓",
+                            key=f"won_{row.get('id', company_name)}",
+                            use_container_width=True,
+                        ):
+                            _set_prospect_status(company_name, "won")
+                            st.rerun()
+                else:
+                    badge_color = "#68d391" if status == "won" else "#a0aec0"
+                    st.markdown(
+                        f"<span style='color:{badge_color};font-size:.8rem;font-weight:600'>"
+                        f"{status.upper()}</span>",
+                        unsafe_allow_html=True,
+                    )
+                    if st.button(
+                        "Restore",
+                        key=f"restore_{row.get('id', company_name)}",
+                        use_container_width=True,
+                    ):
+                        _set_prospect_status(company_name, "active")
+                        st.rerun()
+
+            with c_run:
+                if not is_archived:
+                    btn_label = "View Saved ▶" if is_cached else "Generate & Sync →"
+                    if st.button(
+                        btn_label,
+                        key=f"run_pipeline_{row.get('id', company_name)}",
+                        disabled=not api_ok and not is_cached,
+                        use_container_width=True,
+                    ):
+                        st.session_state["_run_company"] = company_name
+                        st.session_state["_run_industry"] = row.get("industry", "")
+                        st.session_state["_run_triggered"] = True
+                        st.session_state["_force_rerun"] = False
+                        st.rerun()
 
 # ---- Tab 2: Live Input -----------------------------------------------------
 with tab_live:
@@ -300,7 +500,123 @@ with tab_live:
             st.session_state["_run_company"] = company_input.strip()
             st.session_state["_run_industry"] = industry_input.strip()
             st.session_state["_run_triggered"] = True
+            st.session_state["_force_rerun"] = False
             st.rerun()
+
+# ---- Tab 3: Settings -------------------------------------------------------
+with tab_settings:
+    st.markdown("### ICP Definition")
+    st.caption(
+        "Edit the tier thresholds used by the Enrichment agent's ICP classifier. "
+        "Saved changes apply immediately on the next pipeline run."
+    )
+
+    icp_text = _load_icp_text()
+    edited_icp = st.text_area(
+        "ICP classifier prompt",
+        value=icp_text,
+        height=260,
+        key="icp_editor",
+        help="Edit Tier 1/2/3 thresholds to adapt this pipeline to a new company's target profile.",
+    )
+    col_save, col_reset, _ = st.columns([1, 1, 4])
+    with col_save:
+        if st.button("💾 Save", type="primary", use_container_width=True):
+            _save_icp_text(edited_icp)
+            st.success("ICP definition saved.")
+    with col_reset:
+        if st.button("↺ Reset default", use_container_width=True):
+            _save_icp_text(_ICP_DEFAULT)
+            st.rerun()
+
+    st.divider()
+    st.markdown("### Cached Pipeline Outputs")
+    st.caption(
+        "Each successful pipeline run is saved to "
+        "`pipeline/akirolabs/saved_states/<company_slug>.json`. "
+        "Clicking a company in the Pipeline tab loads from cache automatically."
+    )
+
+    saved_files = sorted(SAVED_STATES_DIR.glob("*.json")) if SAVED_STATES_DIR.is_dir() else []
+    if saved_files:
+        for f in saved_files:
+            col_name, col_info, col_del = st.columns([3, 2, 1])
+            col_name.markdown(f"`{f.stem}`")
+            try:
+                col_info.caption(datetime.fromtimestamp(f.stat().st_mtime).strftime("%Y-%m-%d %H:%M"))
+            except Exception:
+                pass
+            with col_del:
+                if st.button("Delete", key=f"del_{f.stem}", use_container_width=True):
+                    f.unlink(missing_ok=True)
+                    st.success(f"Deleted {f.stem}")
+                    st.rerun()
+    else:
+        st.info("No cached states yet. Run the pipeline on any company to save its output.")
+
+    st.divider()
+    st.markdown("### Discovery Settings")
+    st.caption(
+        "Configure which regions and industries Claude targets when discovering new companies. "
+        "Changes apply on next **Discover More Companies** run."
+    )
+
+    disc_cfg = _load_discovery_config()
+
+    disc_regions_raw = st.text_area(
+        "Target regions (one per line or comma-separated)",
+        value="\n".join(disc_cfg.get("regions", [])),
+        height=100,
+        key="disc_regions",
+        help="Examples: Germany, UK, France, Benelux, Nordics, Southeast Asia",
+    )
+    disc_industries_raw = st.text_area(
+        "Target industries (one per line or comma-separated)",
+        value="\n".join(disc_cfg.get("industries", [])),
+        height=140,
+        key="disc_industries",
+    )
+    col_hc_min, col_hc_max = st.columns(2)
+    with col_hc_min:
+        disc_hc_min = st.number_input(
+            "Min headcount",
+            min_value=100, max_value=500000,
+            value=int(disc_cfg.get("headcount_min", 1000)),
+            step=500,
+            key="disc_hc_min",
+        )
+    with col_hc_max:
+        disc_hc_max = st.number_input(
+            "Max headcount",
+            min_value=100, max_value=500000,
+            value=int(disc_cfg.get("headcount_max", 50000)),
+            step=500,
+            key="disc_hc_max",
+        )
+
+    def _parse_list(raw: str) -> list[str]:
+        items = []
+        for chunk in raw.replace(",", "\n").splitlines():
+            s = chunk.strip()
+            if s:
+                items.append(s)
+        return items
+
+    col_disc_save, _ = st.columns([1, 3])
+    with col_disc_save:
+        if st.button("💾 Save Discovery Config", type="primary", use_container_width=True):
+            if int(disc_hc_min) >= int(disc_hc_max):
+                st.warning("Min headcount must be less than max headcount.")
+            else:
+                _save_discovery_config({
+                    "regions":       _parse_list(disc_regions_raw),
+                    "industries":    _parse_list(disc_industries_raw),
+                    "headcount_min": int(disc_hc_min),
+                    "headcount_max": int(disc_hc_max),
+                })
+                st.success("Discovery config saved — applies on next Discover More Companies run.")
+
+    st.caption("Existing pipeline companies are always excluded from Claude's suggestions regardless of these settings.")
 
 
 # ---------------------------------------------------------------------------
@@ -485,12 +801,38 @@ def render_crm(result) -> None:
 if st.session_state.get("_run_triggered"):
     run_company = st.session_state.pop("_run_company", "")
     run_industry = st.session_state.pop("_run_industry", "")
+    force_rerun = st.session_state.pop("_force_rerun", False)
     st.session_state["_run_triggered"] = False
 
     if not run_company or not run_industry:
         st.warning("Company and industry are required.")
         st.stop()
 
+    # ---- Cache check -------------------------------------------------------
+    if not force_rerun:
+        cached = _load_state(run_company)
+        if cached and cached.get("card"):
+            st.divider()
+            col_hdr, col_btn = st.columns([4, 1])
+            col_hdr.success(f"Showing saved result for **{run_company}**")
+            with col_btn:
+                if st.button("⟳ Force Re-run", type="secondary", use_container_width=True):
+                    st.session_state["_run_company"] = run_company
+                    st.session_state["_run_industry"] = run_industry
+                    st.session_state["_run_triggered"] = True
+                    st.session_state["_force_rerun"] = True
+                    st.rerun()
+            st.markdown("### 1 · Enrichment")
+            render_enrichment(cached.get("enrichment"))
+            st.markdown("### 2 · Strategy")
+            render_strategy(cached.get("strategy"))
+            st.markdown("### 3 · Drafts")
+            render_card(cached.get("card"), cached.get("strategy"))
+            st.markdown("### 4 · CRM Sync")
+            render_crm(cached.get("crm_result"))
+            st.stop()
+
+    # ---- Live run ----------------------------------------------------------
     st.divider()
     st.markdown(f"### Running pipeline for **{run_company}**")
 
@@ -553,8 +895,11 @@ if st.session_state.get("_run_triggered"):
         st.error("No card produced. Check the agent log above.")
         st.stop()
 
+    # ---- Persist output ----------------------------------------------------
+    _save_state(run_company, final_state)
+
     st.divider()
-    st.success(f"Generated for **{run_company}**")
+    st.success(f"Generated for **{run_company}** · output cached")
 
     st.markdown("### 1 · Enrichment")
     render_enrichment(final_state.get("enrichment"))
