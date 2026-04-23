@@ -151,10 +151,30 @@ class AngleDraft(BaseModel):
     email_body: str
 
 
+class SequenceTouch(BaseModel):
+    """One touch in a multi-step outreach sequence."""
+    touch_number: int
+    day: int
+    channel: str  # "email" | "linkedin"
+    subject: str = ""
+    body: str = ""
+    cta: str = ""
+    persona: str = ""
+    word_count: int = 0
+
+
+class OutreachSequence(BaseModel):
+    """Full multi-touch sequence for one prospect."""
+    recommended_angle: str
+    entry_persona: str
+    touches: List[SequenceTouch]
+
+
 class ProspectCard(BaseModel):
-    """Final assembled card — Before/After + 3 angle drafts."""
+    """Final assembled card — Before/After + 3 angle drafts + optional sequence."""
     before_after: str
     angles: List[AngleDraft]
+    sequence: Optional[OutreachSequence] = None
 
 
 # ---------------------------------------------------------------------------

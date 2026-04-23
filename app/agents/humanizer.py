@@ -21,6 +21,8 @@ import re
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, SystemMessage
 
+from app.services.humanizer_rules import humanize_angle_draft
+
 from .state import (
     ANGLE_DESCRIPTIONS,
     ANGLE_KEYS,
@@ -331,13 +333,13 @@ def run_humanizer(state: BDRState) -> dict:
     company = enrichment.company
     industry = enrichment.industry or "your industry"
     angles = [
-        _build_angle("angle1", obs.angle1_observation, company, industry),
-        _build_angle("angle2", obs.angle2_observation, company, industry),
-        _build_angle("angle3", obs.angle3_observation, company, industry),
+        humanize_angle_draft(_build_angle("angle1", obs.angle1_observation, company, industry)),
+        humanize_angle_draft(_build_angle("angle2", obs.angle2_observation, company, industry)),
+        humanize_angle_draft(_build_angle("angle3", obs.angle3_observation, company, industry)),
     ]
     card = ProspectCard(
         before_after=_assemble_before_after(obs.before_text, obs.after_text),
         angles=angles,
     )
-    trace.append("Humanizer: card assembled (3 angles, schema-validated)")
+    trace.append("Humanizer: card assembled + 29-rule filter applied")
     return {"card": card, "agent_trace": trace}

@@ -1,0 +1,16 @@
+id,company,industry,priority,hq,notes
+P01,Spendesk,B2B Fintech SaaS,P1,Paris FR,Spend management platform EU-wide; 500+ employees; strong Figma design org
+P02,Qonto,Neobank / Fintech,P1,Paris FR,400+ employees; operates in France Germany Italy Spain; product-led growth
+P03,Payfit,HR & Payroll SaaS,P1,Paris FR,6 EU markets; ~700 employees; design-heavy product
+P04,Aircall,Cloud Communications,P1,Paris FR,Global; 700+ employees; US + EU + APAC markets
+P05,Typeform,Forms & Survey SaaS,P1,Barcelona ES,Global; 500+ employees; English + 5 languages; strong UX culture
+P06,Hotjar,Product Analytics,P1,Remote (Malta),Global; 300+ employees; product-led; English-first but EU-wide
+P07,Personio,HR SaaS,P1,Munich DE,EU-wide; 2000+ employees; fast international expansion
+P08,Contentful,Headless CMS,P1,Berlin DE,Global; 750+ employees; devs + designers both heavy users
+P09,Algolia,Search API SaaS,P1,Paris FR,Global; 600+ employees; US + EU + APAC; Figma-first product
+P10,Contentsquare,Digital Analytics,P2,Paris FR,Global; 1000+ employees; expanding markets rapidly
+P11,Pennylane,Accounting SaaS,P2,Paris FR,Scaling EU; ~300 employees; strong product team
+P12,Livestorm,Video Engagement SaaS,P2,Paris FR,Global English-first; expanding to new markets; Figma design system
+P13,Malt,Freelance Marketplace,P2,Paris FR,France Germany Spain; ~300 employees; multi-market product
+P14,Swile,Employee Benefits,P2,Paris FR,France + Brazil expansion; ~400 employees; consumer-grade UX
+P15,Slite,Async Communication,P2,Paris FR,Global English-first; ~50 employees; strong design culture
