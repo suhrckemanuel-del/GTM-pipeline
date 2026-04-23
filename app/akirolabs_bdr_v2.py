@@ -206,55 +206,57 @@ def _set_prospect_status(company_name: str, new_status: str) -> None:
 st.markdown(
     """
     <style>
+    /* ── Layout ── */
     .block-container { padding-top: 1.4rem; }
+
+    /* ── Agent pipeline cards ── */
     .agent-card {
         border: 1px solid rgba(49,51,63,.15);
-        border-radius: 6px;
-        padding: .55rem .8rem;
-        margin-bottom: .4rem;
-        font-size: .9rem;
+        border-radius: 6px; padding: .55rem .8rem;
+        margin-bottom: .4rem; font-size: .9rem;
     }
     .agent-card.done    { background: #f0fff4; border-left: 4px solid #38a169; }
-    .agent-card.active  { background: #fffbea; border-left: 4px solid #d69e2e; }
     .agent-card.pending { background: #f7fafc; border-left: 4px solid #cbd5e0; color: #718096; }
+    .agent-card.active  {
+        background: #fffbea; border-left: 4px solid #d69e2e;
+        animation: akiro-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes akiro-pulse {
+        0%   { box-shadow: 0 0 0 0   rgba(214,158,46,.45); }
+        70%  { box-shadow: 0 0 0 8px rgba(214,158,46,0);   }
+        100% { box-shadow: 0 0 0 0   rgba(214,158,46,0);   }
+    }
+
+    /* ── Thought log ── */
     .thought-line {
         font-family: ui-monospace, "SF Mono", Menlo, monospace;
-        font-size: .82rem;
-        color: #2d3748;
-        margin: .15rem 0;
+        font-size: .82rem; color: #2d3748; margin: .15rem 0;
     }
     .thought-line.live { color: #b7791f; }
+
+    /* ── Before/After ── */
     .before-after-box {
-        background: #f0f4ff;
-        border-left: 4px solid #4361ee;
-        border-radius: 4px;
-        padding: .75rem 1rem;
-        font-size: .92rem;
-        line-height: 1.55;
+        background: #f0f4ff; border-left: 4px solid #4361ee;
+        border-radius: 4px; padding: .75rem 1rem;
+        font-size: .92rem; line-height: 1.55;
     }
+
+    /* ── Signal / contact pills ── */
     .signal-pill {
-        background: #f0fff4;
-        border-left: 4px solid #38a169;
-        border-radius: 4px;
-        padding: .45rem .8rem;
-        font-size: .85rem;
-        margin-bottom: .35rem;
+        background: #f0fff4; border-left: 4px solid #38a169;
+        border-radius: 4px; padding: .45rem .8rem;
+        font-size: .85rem; margin-bottom: .35rem;
     }
     .contact-pill {
-        background: #fff5f7;
-        border-left: 4px solid #d53f8c;
-        border-radius: 4px;
-        padding: .45rem .8rem;
-        font-size: .85rem;
-        margin-bottom: .35rem;
+        background: #fff5f7; border-left: 4px solid #d53f8c;
+        border-radius: 4px; padding: .45rem .8rem;
+        font-size: .85rem; margin-bottom: .35rem;
     }
+
+    /* ── Tier / priority badges ── */
     .tier-badge {
-        display: inline-block;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-weight: 700;
-        font-size: .8rem;
-        letter-spacing: .03em;
+        display: inline-block; padding: 2px 8px;
+        border-radius: 4px; font-weight: 700; font-size: .8rem; letter-spacing: .03em;
     }
     .tier-1 { background: #c6f6d5; color: #22543d; }
     .tier-2 { background: #fefcbf; color: #744210; }
@@ -262,6 +264,67 @@ st.markdown(
     .p-badge-1 { color: #e53e3e; font-weight: 700; font-size: .85rem; }
     .p-badge-2 { color: #d69e2e; font-weight: 700; font-size: .85rem; }
     .p-badge-3 { color: #718096; font-weight: 700; font-size: .85rem; }
+
+    /* ── KPI strip ── */
+    .kpi-strip { display: flex; gap: .6rem; flex-wrap: wrap; margin: .5rem 0 1rem; }
+    .kpi-tile {
+        background: #f7fafc; border: 1px solid #e2e8f0;
+        border-radius: 8px; padding: .5rem 1.1rem;
+        text-align: center; flex: 1; min-width: 90px;
+    }
+    .kpi-value { font-size: 1.2rem; font-weight: 700; color: #2d3748; }
+    .kpi-label { font-size: .68rem; color: #718096; margin-top: .1rem; text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ── Section headers ── */
+    .section-hdr {
+        display: flex; align-items: center; gap: .5rem;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: .3rem; margin: 1.25rem 0 .7rem;
+    }
+    .step-badge {
+        background: #4361ee; color: white;
+        font-size: .7rem; font-weight: 700;
+        border-radius: 4px; padding: 2px 7px; flex-shrink: 0;
+    }
+    .step-title { font-size: 1rem; font-weight: 600; color: #2d3748; }
+    .step-sub   { font-size: .78rem; color: #718096; margin-left: .2rem; }
+
+    /* ── Sequence timeline ── */
+    .seq-timeline {
+        display: flex; align-items: flex-start;
+        padding: .9rem 0 .6rem; overflow-x: auto;
+    }
+    .seq-node {
+        display: flex; flex-direction: column; align-items: center;
+        flex: 1; position: relative; min-width: 80px;
+    }
+    .seq-node:not(:last-child)::after {
+        content: ''; position: absolute; top: 11px;
+        left: 60%; width: 80%; height: 2px;
+        background: #e2e8f0; z-index: 0;
+    }
+    .seq-dot {
+        width: 22px; height: 22px; border-radius: 50%;
+        background: #4361ee; border: 2px solid white;
+        box-shadow: 0 0 0 2px #4361ee; z-index: 1;
+        font-size: 10px; color: white; font-weight: 700;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .seq-dot.li { background: #0077b5; box-shadow: 0 0 0 2px #0077b5; }
+    .seq-meta { margin-top: .45rem; text-align: center; line-height: 1.35; }
+    .seq-day  { font-weight: 700; font-size: .72rem; color: #2d3748; }
+    .seq-ch   { font-size: .7rem; color: #718096; }
+    .seq-wc   { font-size: .65rem; color: #a0aec0; }
+
+    /* ── Dark sidebar ── */
+    [data-testid="stSidebar"] { background: #111827 !important; }
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] .stMarkdown,
+    [data-testid="stSidebar"] .stCaption { color: #d1d5db !important; }
+    [data-testid="stSidebar"] strong { color: #f9fafb !important; }
+    [data-testid="stSidebar"] hr     { border-color: #374151 !important; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -780,41 +843,82 @@ def render_card(card, strategy) -> None:
         st.json(card.model_dump())
 
 
+def section_header(step: int | str, title: str, sub: str = "") -> None:
+    sub_html = f'<span class="step-sub">· {sub}</span>' if sub else ""
+    st.markdown(
+        f'<div class="section-hdr">'
+        f'<span class="step-badge">{step}</span>'
+        f'<span class="step-title">{title}</span>{sub_html}'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_kpi_strip(enrichment=None, strategy=None, sequence=None) -> None:
+    tiles: list[tuple[str, str]] = []
+    if enrichment and enrichment.icp:
+        tiles.append((f"Tier {enrichment.icp.tier}", "ICP Tier"))
+    if enrichment:
+        tiles.append((str(len(enrichment.contacts)), "Contacts"))
+        tiles.append((str(len(enrichment.live_signals)), "Signals"))
+    if strategy:
+        tiles.append((strategy.recommended_angle, "Angle"))
+    if sequence and sequence.touches:
+        tiles.append((str(len(sequence.touches)), "Touches"))
+        tiles.append((f"{max(t.day for t in sequence.touches)}d", "Window"))
+    parts = [
+        f'<div class="kpi-tile"><div class="kpi-value">{v}</div>'
+        f'<div class="kpi-label">{lbl}</div></div>'
+        for v, lbl in tiles
+    ]
+    st.markdown(f'<div class="kpi-strip">{"".join(parts)}</div>', unsafe_allow_html=True)
+
+
+def _sequence_timeline_html(sequence) -> str:
+    nodes = []
+    for touch in sequence.touches:
+        is_li = touch.channel == "linkedin"
+        dot_cls = "seq-dot li" if is_li else "seq-dot"
+        ch_icon = "💼" if is_li else "📧"
+        nodes.append(
+            f'<div class="seq-node">'
+            f'<div class="{dot_cls}">{touch.touch_number}</div>'
+            f'<div class="seq-meta">'
+            f'<div class="seq-day">Day {touch.day}</div>'
+            f'<div class="seq-ch">{ch_icon} {touch.channel.title()}</div>'
+            f'<div class="seq-wc">{touch.word_count}w</div>'
+            f'</div></div>'
+        )
+    return f'<div class="seq-timeline">{"".join(nodes)}</div>'
+
+
 def render_sequence(sequence) -> None:
     if not sequence or not sequence.touches:
         return
-    n = len(sequence.touches)
-    window = max(t.day for t in sequence.touches)
-    ch_map = {"email": "📧", "linkedin": "💼"}
-
-    col_a, col_b, col_c = st.columns(3)
-    col_a.metric("Touches", n)
-    col_b.metric("Window", f"{window} days")
-    col_c.metric("Angle", sequence.recommended_angle)
+    st.markdown(_sequence_timeline_html(sequence), unsafe_allow_html=True)
     st.caption(f"Entry persona: {sequence.entry_persona}")
 
+    ch_map = {"email": "📧", "linkedin": "💼"}
     for touch in sequence.touches:
         ch_icon = ch_map.get(touch.channel, "📬")
         label = f"Touch {touch.touch_number} · Day {touch.day} · {ch_icon} {touch.channel.title()}"
         if touch.subject:
-            label += f" — _\"{touch.subject}\"_"
+            label += f" — \"{touch.subject}\""
         with st.expander(label, expanded=(touch.touch_number == 1)):
             if touch.subject:
                 st.caption(f"Subject: {touch.subject}")
             if touch.channel == "linkedin":
                 st.text_area(
-                    "Copy DM text",
-                    value=touch.body,
-                    height=120,
+                    "LinkedIn DM",
+                    value=touch.body, height=120,
                     label_visibility="collapsed",
                     key=f"seq_dm_{touch.touch_number}",
                 )
-                st.caption("LinkedIn DM — copy and send manually.")
+                st.caption("Copy and send manually — LinkedIn automation violates ToS.")
             else:
                 st.text_area(
                     "Email body",
-                    value=touch.body,
-                    height=140,
+                    value=touch.body, height=140,
                     label_visibility="collapsed",
                     key=f"seq_email_{touch.touch_number}",
                 )
@@ -863,17 +967,22 @@ if st.session_state.get("_run_triggered"):
                     st.session_state["_run_triggered"] = True
                     st.session_state["_force_rerun"] = True
                     st.rerun()
-            st.markdown("### 1 · Enrichment")
+            _cc = cached.get("card")
+            render_kpi_strip(
+                enrichment=cached.get("enrichment"),
+                strategy=cached.get("strategy"),
+                sequence=_cc.sequence if _cc else None,
+            )
+            section_header(1, "Enrichment", "Exa · Hunter.io · ICP tier")
             render_enrichment(cached.get("enrichment"))
-            st.markdown("### 2 · Strategy")
+            section_header(2, "Strategy", "angle pick + rationale")
             render_strategy(cached.get("strategy"))
-            st.markdown("### 3 · Drafts")
-            render_card(cached.get("card"), cached.get("strategy"))
-            _cached_card = cached.get("card")
-            if _cached_card and _cached_card.sequence:
-                st.markdown("### 3b · Outreach Sequence")
-                render_sequence(_cached_card.sequence)
-            st.markdown("### 4 · CRM Sync")
+            section_header(3, "Drafts", "3 angles · LinkedIn DM + cold email")
+            render_card(_cc, cached.get("strategy"))
+            if _cc and _cc.sequence:
+                section_header("3b", "Outreach Sequence", "5-touch · 15-day window")
+                render_sequence(_cc.sequence)
+            section_header(4, "CRM Sync", "Notion push")
             render_crm(cached.get("crm_result"))
             st.stop()
 
@@ -945,19 +1054,24 @@ if st.session_state.get("_run_triggered"):
 
     st.divider()
     st.success(f"Generated for **{run_company}** · output cached")
+    render_kpi_strip(
+        enrichment=final_state.get("enrichment"),
+        strategy=final_state.get("strategy"),
+        sequence=card.sequence,
+    )
 
-    st.markdown("### 1 · Enrichment")
+    section_header(1, "Enrichment", "Exa · Hunter.io · ICP tier")
     render_enrichment(final_state.get("enrichment"))
 
-    st.markdown("### 2 · Strategy")
+    section_header(2, "Strategy", "angle pick + rationale")
     render_strategy(final_state.get("strategy"))
 
-    st.markdown("### 3 · Drafts")
+    section_header(3, "Drafts", "3 angles · LinkedIn DM + cold email")
     render_card(card, final_state.get("strategy"))
 
     if card.sequence:
-        st.markdown("### 3b · Outreach Sequence")
+        section_header("3b", "Outreach Sequence", "5-touch · 15-day window")
         render_sequence(card.sequence)
 
-    st.markdown("### 4 · CRM Sync")
+    section_header(4, "CRM Sync", "Notion push")
     render_crm(final_state.get("crm_result"))

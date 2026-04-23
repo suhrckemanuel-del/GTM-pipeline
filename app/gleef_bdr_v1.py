@@ -43,12 +43,72 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Custom CSS — cleaner cards and header
 st.markdown("""
 <style>
+/* ── Layout ── */
+.block-container { padding-top: 1.4rem; }
 [data-testid="stMetricValue"] { font-size: 1.4rem; font-weight: 700; }
-.stExpander { border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 6px; }
-div[data-testid="stHorizontalBlock"] > div { gap: 0.5rem; }
+
+/* ── KPI strip ── */
+.kpi-strip { display: flex; gap: .6rem; flex-wrap: wrap; margin: .5rem 0 1rem; }
+.kpi-tile {
+    background: #f7fafc; border: 1px solid #e2e8f0;
+    border-radius: 8px; padding: .5rem 1.1rem;
+    text-align: center; flex: 1; min-width: 90px;
+}
+.kpi-value { font-size: 1.2rem; font-weight: 700; color: #2d3748; }
+.kpi-label { font-size: .68rem; color: #718096; margin-top: .1rem; text-transform: uppercase; letter-spacing: .04em; }
+
+/* ── Section headers ── */
+.section-hdr {
+    display: flex; align-items: center; gap: .5rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: .3rem; margin: 1.25rem 0 .7rem;
+}
+.step-badge {
+    background: #7c3aed; color: white;
+    font-size: .7rem; font-weight: 700;
+    border-radius: 4px; padding: 2px 7px; flex-shrink: 0;
+}
+.step-title { font-size: 1rem; font-weight: 600; color: #2d3748; }
+.step-sub   { font-size: .78rem; color: #718096; margin-left: .2rem; }
+
+/* ── Sequence timeline ── */
+.seq-timeline {
+    display: flex; align-items: flex-start;
+    padding: .9rem 0 .6rem; overflow-x: auto;
+}
+.seq-node {
+    display: flex; flex-direction: column; align-items: center;
+    flex: 1; position: relative; min-width: 80px;
+}
+.seq-node:not(:last-child)::after {
+    content: ''; position: absolute; top: 11px;
+    left: 60%; width: 80%; height: 2px;
+    background: #e9d5ff; z-index: 0;
+}
+.seq-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #7c3aed; border: 2px solid white;
+    box-shadow: 0 0 0 2px #7c3aed; z-index: 1;
+    font-size: 10px; color: white; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+}
+.seq-dot.li { background: #0077b5; box-shadow: 0 0 0 2px #0077b5; }
+.seq-meta { margin-top: .45rem; text-align: center; line-height: 1.35; }
+.seq-day  { font-weight: 700; font-size: .72rem; color: #2d3748; }
+.seq-ch   { font-size: .7rem; color: #718096; }
+.seq-wc   { font-size: .65rem; color: #a0aec0; }
+
+/* ── Dark sidebar ── */
+[data-testid="stSidebar"] { background: #0f172a !important; }
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] .stMarkdown,
+[data-testid="stSidebar"] .stCaption { color: #cbd5e1 !important; }
+[data-testid="stSidebar"] strong { color: #f1f5f9 !important; }
+[data-testid="stSidebar"] hr     { border-color: #1e293b !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -85,46 +145,91 @@ def icp_badge(tier: int) -> str:
     return f'<span style="background:{c};color:#fff;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700">{labels.get(tier, f"Tier {tier}")}</span>'
 
 
+def section_header(step: int | str, title: str, sub: str = "") -> None:
+    sub_html = f'<span class="step-sub">· {sub}</span>' if sub else ""
+    st.markdown(
+        f'<div class="section-hdr">'
+        f'<span class="step-badge">{step}</span>'
+        f'<span class="step-title">{title}</span>{sub_html}'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_kpi_strip(enrichment=None, sequence=None) -> None:
+    tiles: list[tuple[str, str]] = []
+    if enrichment and enrichment.icp:
+        tiles.append((f"Tier {enrichment.icp.tier}", "ICP Tier"))
+    if enrichment:
+        tiles.append((str(len(enrichment.contacts)), "Contacts"))
+        tiles.append((str(len(enrichment.live_signals)), "Signals"))
+    if sequence and sequence.touches:
+        tiles.append((str(len(sequence.touches)), "Touches"))
+        tiles.append((f"{max(t.day for t in sequence.touches)}d", "Window"))
+        angle_name = ANGLE_LABEL.get(sequence.recommended_angle, sequence.recommended_angle)
+        tiles.append((angle_name, "Angle"))
+    parts = [
+        f'<div class="kpi-tile"><div class="kpi-value">{v}</div>'
+        f'<div class="kpi-label">{lbl}</div></div>'
+        for v, lbl in tiles
+    ]
+    st.markdown(f'<div class="kpi-strip">{"".join(parts)}</div>', unsafe_allow_html=True)
+
+
+def _seq_timeline_html(sequence) -> str:
+    nodes = []
+    for touch in sequence.touches:
+        is_li = touch.channel == "linkedin"
+        dot_cls = "seq-dot li" if is_li else "seq-dot"
+        ch_icon = "💬" if is_li else "📧"
+        nodes.append(
+            f'<div class="seq-node">'
+            f'<div class="{dot_cls}">{touch.touch_number}</div>'
+            f'<div class="seq-meta">'
+            f'<div class="seq-day">Day {touch.day}</div>'
+            f'<div class="seq-ch">{ch_icon} {touch.channel.title()}</div>'
+            f'<div class="seq-wc">{touch.word_count}w</div>'
+            f'</div></div>'
+        )
+    return f'<div class="seq-timeline">{"".join(nodes)}</div>'
+
+
 def display_sequence(sequence) -> None:
-    n = len(sequence.touches)
-    last_day = sequence.touches[-1].day
     angle_name = ANGLE_LABEL.get(sequence.recommended_angle, sequence.recommended_angle)
-
-    col_a, col_b, col_c = st.columns(3)
-    col_a.metric("Touches", n)
-    col_b.metric("Window", f"{last_day} days")
-    col_c.metric("Angle", angle_name)
-
-    st.caption(f"Target: **{sequence.entry_persona}**")
-    st.divider()
+    st.markdown(_seq_timeline_html(sequence), unsafe_allow_html=True)
+    st.caption(f"Target: **{sequence.entry_persona}** · Angle: **{angle_name}**")
 
     for touch in sequence.touches:
         icon = CHANNEL_ICON.get(touch.channel, "📌")
-        ch_label = touch.channel.title()
-        label = f"{icon} Touch {touch.touch_number} — Day {touch.day} — {ch_label}"
+        label = f"{icon} Touch {touch.touch_number} — Day {touch.day} — {touch.channel.title()}"
         if touch.subject:
-            label += f"  |  {touch.subject}"
+            label += f"  ·  {touch.subject}"
 
         with st.expander(label, expanded=(touch.touch_number == 1)):
             if touch.subject:
                 st.caption(f"**Subject:** {touch.subject}")
 
             if touch.channel == "linkedin":
-                st.info("LinkedIn DM — copy manually or use the clipboard button below.")
-                st.code(touch.body, language=None)
-                if st.button("📋 Copy LinkedIn DM", key=f"copy_li_{touch.touch_number}"):
-                    st.session_state["_clipboard"] = touch.body
-                    st.success("Copied to session — paste from the text area below.")
-                if st.session_state.get("_clipboard") == touch.body:
-                    st.text_area("LinkedIn DM (select all → copy)", touch.body, height=120,
-                                 key=f"li_ta_{touch.touch_number}")
+                st.text_area(
+                    "LinkedIn DM",
+                    value=touch.body, height=120,
+                    label_visibility="collapsed",
+                    key=f"li_ta_{touch.touch_number}",
+                )
+                st.caption("Copy and send manually — LinkedIn automation violates ToS.")
             else:
-                st.code(touch.body, language=None)
+                st.text_area(
+                    "Email body",
+                    value=touch.body, height=150,
+                    label_visibility="collapsed",
+                    key=f"email_ta_{touch.touch_number}",
+                )
 
-            col1, col2, col3 = st.columns(3)
-            col1.caption(f"~{touch.word_count} words")
-            col2.caption(f"CTA: {touch.cta}")
-            col3.caption(f"Day {touch.day}")
+            c1, c2, c3 = st.columns(3)
+            c1.caption(f"~{touch.word_count} words")
+            if touch.cta:
+                c2.caption(f"CTA: {touch.cta}")
+            c3.caption(f"Day {touch.day}")
 
 
 # ---------------------------------------------------------------------------
@@ -374,20 +479,10 @@ if st.session_state.get("_run_triggered"):
     crm_result = final_state.get("crm_result") if final_state else None
 
     st.success(f"Pipeline complete in {elapsed:.1f}s")
-    st.divider()
-
-    # Summary metrics row
-    if enrichment:
-        m1, m2, m3, m4 = st.columns(4)
-        icp_tier = enrichment.icp.tier if enrichment.icp else 2
-        m1.markdown(f"**ICP Tier**<br>{icp_badge(icp_tier)}", unsafe_allow_html=True)
-        if strategy:
-            m2.markdown(f"**Angle**<br>`{ANGLE_LABEL.get(strategy.recommended_angle,'—')}`",
-                        unsafe_allow_html=True)
-            m3.markdown(f"**Target**<br>`{strategy.cpo_hypothesis}`", unsafe_allow_html=True)
-        n_c = len(enrichment.contacts) if enrichment.contacts else 0
-        m4.markdown(f"**Contacts**<br>`{n_c} via Hunter.io`", unsafe_allow_html=True)
-
+    render_kpi_strip(
+        enrichment=enrichment,
+        sequence=card.sequence if card else None,
+    )
     st.divider()
 
     # Results tabs
