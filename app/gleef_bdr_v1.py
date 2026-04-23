@@ -200,6 +200,17 @@ with st.sidebar:
         st.caption("Queue unavailable.")
 
     st.divider()
+    st.markdown("**Lead Discovery**")
+    perp_key = os.environ.get("PERPLEXITY_API_KEY", "")
+    if not perp_key:
+        v = st.text_input("PERPLEXITY_API_KEY", type="password", key="inp_perp",
+                          help="perplexity.ai/settings/api")
+        if v:
+            os.environ["PERPLEXITY_API_KEY"] = v
+    else:
+        st.success("✓ Perplexity", icon="🔍")
+
+    st.divider()
     st.caption("Reuses: Enrichment (Exa + Hunter.io) + CRM Sync.")
     st.caption("Gleef-specific: Strategist + Humanizer + 5-touch Sequence.")
 
@@ -225,10 +236,26 @@ tab_pipeline, tab_live, tab_queue = st.tabs([
 # ── Pipeline tab ─────────────────────────────────────────────────────────────
 with tab_pipeline:
     prospects = load_prospects()
-    col_ref, col_cnt = st.columns([1, 5])
+    col_ref, col_disc, col_cnt = st.columns([1, 2, 4])
     if col_ref.button("🔄 Refresh"):
         st.cache_data.clear()
         st.rerun()
+    if col_disc.button("🔍 Discover more", help="Uses Perplexity AI to find new Gleef leads"):
+        if not os.environ.get("PERPLEXITY_API_KEY"):
+            st.error("Add PERPLEXITY_API_KEY in the sidebar first.")
+        else:
+            with st.spinner("Asking Perplexity for new Gleef leads…"):
+                try:
+                    from app.services.prospect_discovery import discover_gleef_prospects
+                    new, added = discover_gleef_prospects()
+                    if added:
+                        st.cache_data.clear()
+                        st.success(f"Added {added} new prospects. Refreshing…")
+                        st.rerun()
+                    else:
+                        st.info("No new companies found (all already in list).")
+                except Exception as e:
+                    st.error(f"Discovery failed: {e}")
     col_cnt.caption(f"{len(prospects)} prospects · pipeline/gleef/prospects.csv")
 
     if not prospects:
