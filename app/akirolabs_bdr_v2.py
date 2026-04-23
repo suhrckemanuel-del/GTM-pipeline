@@ -780,6 +780,47 @@ def render_card(card, strategy) -> None:
         st.json(card.model_dump())
 
 
+def render_sequence(sequence) -> None:
+    if not sequence or not sequence.touches:
+        return
+    n = len(sequence.touches)
+    window = max(t.day for t in sequence.touches)
+    ch_map = {"email": "📧", "linkedin": "💼"}
+
+    col_a, col_b, col_c = st.columns(3)
+    col_a.metric("Touches", n)
+    col_b.metric("Window", f"{window} days")
+    col_c.metric("Angle", sequence.recommended_angle)
+    st.caption(f"Entry persona: {sequence.entry_persona}")
+
+    for touch in sequence.touches:
+        ch_icon = ch_map.get(touch.channel, "📬")
+        label = f"Touch {touch.touch_number} · Day {touch.day} · {ch_icon} {touch.channel.title()}"
+        if touch.subject:
+            label += f" — _\"{touch.subject}\"_"
+        with st.expander(label, expanded=(touch.touch_number == 1)):
+            if touch.subject:
+                st.caption(f"Subject: {touch.subject}")
+            if touch.channel == "linkedin":
+                st.text_area(
+                    "Copy DM text",
+                    value=touch.body,
+                    height=120,
+                    label_visibility="collapsed",
+                    key=f"seq_dm_{touch.touch_number}",
+                )
+                st.caption("LinkedIn DM — copy and send manually.")
+            else:
+                st.text_area(
+                    "Email body",
+                    value=touch.body,
+                    height=140,
+                    label_visibility="collapsed",
+                    key=f"seq_email_{touch.touch_number}",
+                )
+            st.caption(f"{touch.word_count}w")
+
+
 def render_crm(result) -> None:
     if not result:
         return
@@ -828,6 +869,10 @@ if st.session_state.get("_run_triggered"):
             render_strategy(cached.get("strategy"))
             st.markdown("### 3 · Drafts")
             render_card(cached.get("card"), cached.get("strategy"))
+            _cached_card = cached.get("card")
+            if _cached_card and _cached_card.sequence:
+                st.markdown("### 3b · Outreach Sequence")
+                render_sequence(_cached_card.sequence)
             st.markdown("### 4 · CRM Sync")
             render_crm(cached.get("crm_result"))
             st.stop()
@@ -909,6 +954,10 @@ if st.session_state.get("_run_triggered"):
 
     st.markdown("### 3 · Drafts")
     render_card(card, final_state.get("strategy"))
+
+    if card.sequence:
+        st.markdown("### 3b · Outreach Sequence")
+        render_sequence(card.sequence)
 
     st.markdown("### 4 · CRM Sync")
     render_crm(final_state.get("crm_result"))

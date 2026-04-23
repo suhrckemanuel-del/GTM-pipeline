@@ -21,7 +21,7 @@ import re
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from app.services.humanizer_rules import humanize_angle_draft
+from app.services.humanizer_rules import humanize_angle_draft, humanize_sequence
 
 from .state import (
     ANGLE_DESCRIPTIONS,
@@ -29,7 +29,9 @@ from .state import (
     AngleDraft,
     BDRState,
     HumanizerObservations,
+    OutreachSequence,
     ProspectCard,
+    SequenceTouch,
 )
 
 MODEL = "claude-sonnet-4-6"
@@ -125,6 +127,117 @@ SUBJECT_TEMPLATES: dict[str, list[str]] = {
         "Spend under strategy at {company}",
         "{company} indirect coverage gap",
         "Tail spend strategy at {company}",
+    ],
+}
+
+# T2 follow-up bodies — Day 3, 40-60w, angle-specific
+FOLLOW_UP_BODIES: dict[str, list[str]] = {
+    "angle1": [
+        "Sent a note on {company}'s strategy cycle last week. If that landed at a bad time, a 15-minute window when the pace picks up would be enough.",
+        "Following up on the category strategy refresh gap at {company}. I can send the Bertelsmann workflow one-pager first — no call needed.",
+        "Quick follow-up on the cycle time issue at {company}. Happy to share how teams similar in scale solved it without a platform replacement.",
+    ],
+    "angle2": [
+        "Quick follow-up on the planning layer above {company}'s stack. One slide maps where Akirolabs sits — happy to send it.",
+        "Following up on the pre-sourcing gap at {company}. Merck's stack view takes two minutes to explain — I can drop it in an email.",
+        "Last week's note was about where strategy work lives above {company}'s suite. Happy to show the architecture if the timing is better now.",
+    ],
+    "angle3": [
+        "Following up on the indirect coverage gap. I can share the {industry} benchmark numbers first — useful even if the timing is off.",
+        "Quick follow-up on spend under strategy at {company}. The benchmark for {industry} is one page — happy to send it with no strings attached.",
+        "Last note was on the tail-spend strategy gap. I can share what the first 90 days usually looks like for teams in {industry}.",
+    ],
+}
+
+T2_SUBJECTS: dict[str, list[str]] = {
+    "angle1": [
+        "Re: strategy cycle time at {company}",
+        "Following up — category refresh at {company}",
+        "One-pager on the strategy cycle gap",
+    ],
+    "angle2": [
+        "Re: planning layer at {company}",
+        "Following up — stack architecture",
+        "One slide on the pre-sourcing gap",
+    ],
+    "angle3": [
+        "Re: indirect coverage at {company}",
+        "Following up — spend under strategy",
+        "{industry} benchmark — no call needed",
+    ],
+}
+
+# T3 social proof bodies — Day 7, 60-80w, secondary customer reference
+T3_SOCIAL_PROOF_BODIES: dict[str, list[str]] = {
+    "angle1": [
+        "Tried twice on the strategy cycle at {company}, so I'll keep this short. Axpo's team was running 10-week refresh cycles across 15 categories; after Akirolabs the same output took days. Happy to put the one-pager together for {company} if useful.",
+        "One more on the cycle time gap. Continental AG reduced strategy refresh cycles from quarterly to continuous updates across indirect categories. I can send the two-page overview.",
+        "Third note on strategy speed. Schaeffler moved category planning from weeks to days across their indirect spend. The workflow is straightforward — happy to share it.",
+    ],
+    "angle2": [
+        "Third note on the planning layer. Axpo runs Akirolabs as the strategy layer above the ERP suite they kept — no replacement, no migration. I can send the architecture diagram mapped to {company}.",
+        "One more on the stack architecture. Merck's setup took four weeks to configure on top of their existing suite. I can share the integration overview.",
+        "Third note on the pre-sourcing gap. Teams in {industry} typically run Akirolabs above their existing stack in under 30 days. I can send the onboarding overview.",
+    ],
+    "angle3": [
+        "Third note on spend coverage. Raiffeisen Bank moved 60% of previously unmanaged indirect categories under formal strategy in one quarter. The first 90 days is a clear pattern — I can share the plan.",
+        "One more on the coverage gap. {industry} teams typically cover 20-30% more spend under documented strategy in the first quarter. I can share the benchmark.",
+        "Third note on tail spend. The biggest coverage gaps in {industry} are usually indirect services and IT contractors — I can share the category scan.",
+    ],
+}
+
+T3_SUBJECTS: dict[str, list[str]] = {
+    "angle1": [
+        "One example on the strategy cycle",
+        "How {company}-scale teams cut refresh time",
+        "One case on category speed",
+    ],
+    "angle2": [
+        "The stack setup that fits above {company}",
+        "How teams keep the suite and add strategy",
+        "One slide on the pre-sourcing layer",
+    ],
+    "angle3": [
+        "One example on indirect coverage",
+        "The first 90 days in {industry}",
+        "Spend coverage case for {industry}",
+    ],
+}
+
+# T5 break-up bodies — Day 15, 40-60w
+BREAKUP_BODIES: dict[str, list[str]] = {
+    "angle1": [
+        "Last note on the category strategy cycle at {company}. If the timing is off or this isn't on the radar, no problem — I'll stop here and you can find me when it becomes relevant.",
+        "Final one on the strategy refresh gap. If this isn't the right moment, feel free to ignore — I won't follow up again unless you reach back.",
+        "Last note on cycle time. If the priority list has moved on, completely understood. I'll leave it here.",
+    ],
+    "angle2": [
+        "Last note on the planning layer at {company}. If the stack is settled or the timing is wrong, no worries — I'll stop here.",
+        "Final one on the pre-sourcing gap. If this isn't a priority at {company} right now, I'll leave it here and you can reach back when it is.",
+        "Last note on the strategy layer. If you're not exploring this space, completely fine — I won't follow up again.",
+    ],
+    "angle3": [
+        "Last note on the indirect coverage gap at {company}. If the portfolio is covered or the timing is off, no worries — I'll leave it here.",
+        "Final one on spend under strategy. If this isn't on the agenda, completely understood. Feel free to reach back when it is.",
+        "Last note on the category coverage. If the priorities are elsewhere, I'll stop here.",
+    ],
+}
+
+T5_SUBJECTS: dict[str, list[str]] = {
+    "angle1": [
+        "Last note — strategy cycle at {company}",
+        "Closing the loop on category refresh",
+        "Final note on strategy speed",
+    ],
+    "angle2": [
+        "Last note — planning layer at {company}",
+        "Closing the loop on the stack gap",
+        "Final note on pre-sourcing",
+    ],
+    "angle3": [
+        "Last note — spend coverage at {company}",
+        "Closing the loop on indirect strategy",
+        "Final note on {industry} coverage",
     ],
 }
 
@@ -306,6 +419,71 @@ def _assemble_before_after(before: str, after: str) -> str:
     return f"{before}\n\nWith Akirolabs: {after}"
 
 
+def _build_akiro_sequence(
+    angle_key: str,
+    observation: str,
+    company: str,
+    industry: str,
+    tier: int,
+    persona: str,
+    variant: int,
+) -> OutreachSequence:
+    """Build a 5-touch sequence (4 for Tier 3) for the recommended angle."""
+    t1_body = _assemble_email(angle_key, observation, company, industry, variant)
+    t1_subject = _assemble_subject(angle_key, company, variant)
+
+    t2_body = FOLLOW_UP_BODIES[angle_key][variant].format(company=company, industry=industry)
+    t2_subject = T2_SUBJECTS[angle_key][variant].format(company=company, industry=industry)
+
+    t3_body = T3_SOCIAL_PROOF_BODIES[angle_key][variant].format(company=company, industry=industry)
+    t3_subject = T3_SUBJECTS[angle_key][variant].format(company=company, industry=industry)
+
+    t4_body = _assemble_dm(angle_key, observation, company, industry, variant)
+
+    t5_body = BREAKUP_BODIES[angle_key][variant].format(company=company, industry=industry)
+    t5_subject = T5_SUBJECTS[angle_key][variant].format(company=company, industry=industry)
+
+    touches = [
+        SequenceTouch(
+            touch_number=1, day=0, channel="email",
+            subject=t1_subject, body=t1_body, persona=persona,
+            word_count=_word_count(t1_body),
+        ),
+        SequenceTouch(
+            touch_number=2, day=3, channel="email",
+            subject=t2_subject, body=t2_body, persona=persona,
+            word_count=_word_count(t2_body),
+        ),
+        SequenceTouch(
+            touch_number=3, day=7, channel="email",
+            subject=t3_subject, body=t3_body, persona=persona,
+            word_count=_word_count(t3_body),
+        ),
+        SequenceTouch(
+            touch_number=4, day=10, channel="linkedin",
+            body=t4_body, persona=persona,
+            word_count=_word_count(t4_body),
+        ),
+        SequenceTouch(
+            touch_number=5, day=15, channel="email",
+            subject=t5_subject, body=t5_body, persona=persona,
+            word_count=_word_count(t5_body),
+        ),
+    ]
+
+    # Tier 3: drop social proof touch — shorter sequence for lower-priority accounts
+    if tier >= 3:
+        touches = [t for t in touches if t.touch_number != 3]
+        for i, t in enumerate(touches):
+            t.touch_number = i + 1
+
+    return OutreachSequence(
+        recommended_angle=angle_key,
+        entry_persona=persona,
+        touches=touches,
+    )
+
+
 # ---------------------------------------------------------------------------
 # LangGraph node
 # ---------------------------------------------------------------------------
@@ -337,9 +515,33 @@ def run_humanizer(state: BDRState) -> dict:
         humanize_angle_draft(_build_angle("angle2", obs.angle2_observation, company, industry)),
         humanize_angle_draft(_build_angle("angle3", obs.angle3_observation, company, industry)),
     ]
+
+    # Build multi-touch sequence for the recommended angle
+    rec_angle = strategy.recommended_angle
+    obs_map = {
+        "angle1": obs.angle1_observation,
+        "angle2": obs.angle2_observation,
+        "angle3": obs.angle3_observation,
+    }
+    rec_obs = obs_map.get(rec_angle, obs.angle1_observation)
+    tier = enrichment.icp.tier if enrichment.icp else 2
+    angle_idx = list(ANGLE_KEYS).index(rec_angle) if rec_angle in ANGLE_KEYS else 0
+    variant = _variant_index(company, angle_idx)
+    sequence = _build_akiro_sequence(
+        angle_key=rec_angle,
+        observation=rec_obs,
+        company=company,
+        industry=industry,
+        tier=tier,
+        persona=strategy.cpo_hypothesis,
+        variant=variant,
+    )
+    sequence = humanize_sequence(sequence)
+
     card = ProspectCard(
         before_after=_assemble_before_after(obs.before_text, obs.after_text),
         angles=angles,
+        sequence=sequence,
     )
-    trace.append("Humanizer: card assembled + 29-rule filter applied")
+    trace.append("Humanizer: card assembled + 5-touch sequence + 29-rule filter applied")
     return {"card": card, "agent_trace": trace}
